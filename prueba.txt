@@ -1,0 +1,27 @@
+_si
+-a _sino
+¿ : $
+%
+_mientras
+1234
+> >= < <= = ><
+. , ( ) [ ]
+¡Hola!
+-24
++3
+?
+_corto
+-23.5
+.345
+23E10 3
+3
+"Bodoque"
+5.
++ - * /
+-bs312
+_finmientras
+:=
+:=
+"Holacadena"
+"Juanito"
+?

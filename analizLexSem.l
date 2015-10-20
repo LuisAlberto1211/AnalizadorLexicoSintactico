@@ -22,10 +22,10 @@
   #define SIMB_ASIG_NUM 1
   #define SIMB_ARIT_NUM 4
   #define SIMB_ESP_NUM 6
-  #define SIMB_PALRES_NUM 14
+  #define SIMB_PALRES_NUM 15
 
   //Simbolos de palabras reservadas
-  #define SIMB_PALRES {"_corto", "_desde", "_entero", "_finmientras", "_finsi", "_hasta", "_haz", "_incremento", "_largo", "_mientras", "_real", "_si", "_simbolo", "_sino"}
+  #define SIMB_PALRES {"_corto", "_desde", "_entero", "_findesde", "_finmientras", "_finsi", "_hasta", "_haz", "_incremento", "_largo", "_mientras", "_real", "_si", "_simbolo", "_sino"}
   //Simbolos de cada tabla de operadores
   #define SIMB_REL { ">", ">=", "<", "<=", "=", "><" }
   #define SIMB_ASIG { ":=" }
@@ -65,6 +65,15 @@
   typedef struct nodoListaExpandible NodoListaExpandible;
   typedef NodoListaExpandible *ptrNodoListaExpandible;
 
+  //Estructura de lista ligada cadena de atomos
+  struct nodoListaAtomos{
+    char atomo;
+    struct nodoListaAtomos *ptrSig;
+  };
+
+  typedef struct nodoListaAtomos NodoListaAtomos;
+  typedef NodoListaAtomos *ptrNodoListaAtomos;
+
   //Funciones para el manejo de la lista ligada TOKENS
   void insertarToken( ptrNodoLista *ptrS, char clase, char posicion);
   void imprimeListaToken( ptrNodoLista ptrActual );
@@ -73,9 +82,15 @@
   void insertar( ptrNodoListaExpandible *ptrS, char *elemento, char clase);
   void imprimeLista( ptrNodoListaExpandible ptrActual );
 
+  //Funciones para el manejo de la lista ligada de la cadena de ATOMOS
+  void insertarAtomo( ptrNodoListaAtomos *ptrS, char elemento);
+  void imprimeListaAtomos( ptrNodoListaAtomos ptrActual );
+
   //Funciones que pasan los elementos de la lista a archivos
   void lista2ArchivoToken(ptrNodoLista ptrInicial, FILE *fp);
   void lista2Archivo(ptrNodoListaExpandible ptrInicial, char *titulo, FILE *fp);
+
+  char decodificadorAtomos(char *string);
 
   int i, j;
   Operadores op = { SIMB_PALRES, SIMB_REL, SIMB_ASIG, SIMB_ARIT, SIMB_ESP};  //Se inicializa las tablas de operadores
@@ -92,9 +107,10 @@
   ptrNodoListaExpandible ptrInicialConstEnt = NULL;
   ptrNodoListaExpandible ptrInicialConstReal = NULL;
   ptrNodoListaExpandible ptrInicialError = NULL;
+  ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
 %}
-palRes     _corto|_desde|_entero|_finmientras|_finsi|_hasta|_haz|_incremento|_largo|_mientras|_real|_si|_simbolo|_sino
+palRes     _corto|_desde|_entero|_findesde|_finmientras|_finsi|_hasta|_haz|_incremento|_largo|_mientras|_real|_si|_simbolo|_sino
 ident      [a-zA-Z]{1,16}
 opAsig     :=
 opRel      >=?|<=?|><|=
@@ -109,16 +125,16 @@ comentario ¡.*!
 espacio    [ \n\t]+
 error      [_:#$%&;{}?¿\\]+
 %%
-{palRes}      j = buscaElemento(op.palRes, yytext, SIMB_PALRES_NUM); insertarToken(&ptrInicialTokens, 0, j);
-{ident}       insertar(&ptrInicialIden, yytext, 1);
-{opAsig}      j = buscaElemento(op.opAsig, yytext, SIMB_ASIG_NUM); insertarToken(&ptrInicialTokens, 2, j);
-{opRel}       j = buscaElemento(op.opRel, yytext, SIMB_REL_NUM); insertarToken(&ptrInicialTokens, 3, j);
-{opArit}      j = buscaElemento(op.opArit, yytext, SIMB_ARIT_NUM); insertarToken(&ptrInicialTokens, 4, j);
-{simbEsp}     j = buscaElemento(op.simbEsp, yytext, SIMB_ESP_NUM); insertarToken(&ptrInicialTokens, 5, j);
-{consCad}     insertar(&ptrInicialCad,yytext, 6);
-{consEnt}     insertar(&ptrInicialConstEnt,yytext, 7);
+{palRes}      j = buscaElemento(op.palRes, yytext, SIMB_PALRES_NUM); insertarToken(&ptrInicialTokens, 0, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
+{ident}       insertar(&ptrInicialIden, yytext, 1); insertarAtomo(&ptrInicialAtomos, 'a');
+{opAsig}      j = buscaElemento(op.opAsig, yytext, SIMB_ASIG_NUM); insertarToken(&ptrInicialTokens, 2, j); insertarAtomo(&ptrInicialAtomos, '=');
+{opRel}       j = buscaElemento(op.opRel, yytext, SIMB_REL_NUM); insertarToken(&ptrInicialTokens, 3, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
+{opArit}      j = buscaElemento(op.opArit, yytext, SIMB_ARIT_NUM); insertarToken(&ptrInicialTokens, 4, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
+{simbEsp}     j = buscaElemento(op.simbEsp, yytext, SIMB_ESP_NUM); insertarToken(&ptrInicialTokens, 5, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
+{consCad}     insertar(&ptrInicialCad,yytext, 6); insertarAtomo(&ptrInicialAtomos, 'y');
+{consEnt}     insertar(&ptrInicialConstEnt,yytext, 7); insertarAtomo(&ptrInicialAtomos, 'x');
 {sufijo}
-{consReal}    insertar(&ptrInicialConstReal,yytext, 8);
+{consReal}    insertar(&ptrInicialConstReal,yytext, 8); insertarAtomo(&ptrInicialAtomos, 'z');
 {comentario}
 {error}       insertar(&ptrInicialError,yytext, 9);
 {espacio}
@@ -130,6 +146,7 @@ int main(int argc, char *argv[]){
   yylex();
   fclose(yyin);
 
+  imprimeListaAtomos(ptrInicialAtomos);
   lista2ArchivoToken(ptrInicialTokens, archSalida);
   lista2Archivo(ptrInicialIden, "\nIdentificadores", archSalida);
   lista2Archivo(ptrInicialCad, "Cadenas", archSalida);
@@ -155,6 +172,55 @@ int buscaElemento(const char **arr, char *symb, char tam){
 //Regresa el simbolo de una tabla estatica dada una posicion
 char* regresaSimbolo(const char **arr, char posicion){
     return arr[posicion];
+}
+
+char decodificadorAtomos(char *string){
+  if(strncmp(string, "_corto", LONG_MAX_SYM) == 0){
+    return 'c';
+  } else if(strncmp(string, "_desde", LONG_MAX_SYM) == 0){
+    return 'd';
+  } else if(strncmp(string, "_entero", LONG_MAX_SYM) == 0){
+    return 'e';
+  } else if(strncmp(string, "_finmientras", LONG_MAX_SYM) == 0){
+    return 'f';
+  } else if(strncmp(string, "_finsi", LONG_MAX_SYM) == 0){
+    return 'b';
+  } else if(strncmp(string, "_hasta", LONG_MAX_SYM) == 0){
+    return 't';
+  } else if(strncmp(string, "_haz", LONG_MAX_SYM) == 0){
+    return 'h';
+  } else if(strncmp(string, "_incremento", LONG_MAX_SYM) == 0){
+    return 'p';
+  } else if(strncmp(string, "_largo", LONG_MAX_SYM) == 0){
+    return 'l';
+  } else if(strncmp(string, "_mientras", LONG_MAX_SYM) == 0){
+    return 'm';
+  } else if(strncmp(string, "_real", LONG_MAX_SYM) == 0){
+    return 'r';
+  } else if(strncmp(string, "_si", LONG_MAX_SYM) == 0){
+    return 'i';
+  } else if(strncmp(string, "_simbolo", LONG_MAX_SYM) == 0){
+    return 's';
+  } else if(strncmp(string, "_sino", LONG_MAX_SYM) == 0){
+    return 'n';
+  } else if(strncmp(string, "_findesde", LONG_MAX_SYM) == 0){
+    return 'g';
+  } else if(strncmp(string, ">", LONG_MAX_SYM) == 0){
+    return 'j';
+  } else if(strncmp(string, ">=", LONG_MAX_SYM) == 0){
+    return 'k';
+  } else if(strncmp(string, "<", LONG_MAX_SYM) == 0){
+    return 'q';
+  } else if(strncmp(string, "<=", LONG_MAX_SYM) == 0){
+    return 'u';
+  } else if(strncmp(string, "=", LONG_MAX_SYM) == 0){
+    return 'v';
+  } else if(strncmp(string, "><", LONG_MAX_SYM) == 0){
+    return 'w';
+  }
+  else{
+    return '_';
+  }
 }
 
 //Insertar cadena en la lista de tokens para cadenas que pertenecen a una tabla estatica
@@ -271,6 +337,54 @@ void imprimeLista( ptrNodoListaExpandible ptrActual ){
       else
         printf("(%d, %s)\n", (ptrActual->clase), (ptrActual->elemento) );
       ptrActual = ptrActual->ptrSig;
+    }
+    printf("NULL\n");
+  }
+}
+
+void insertarAtomo( ptrNodoListaAtomos *ptrS, char atomo){
+  ptrNodoListaAtomos ptrNuevo;
+  ptrNodoListaAtomos ptrAnterior;
+  ptrNodoListaAtomos ptrActual;
+
+  ptrNuevo = malloc(sizeof(NodoListaAtomos));
+
+  if( ptrNuevo != NULL ){
+    ptrNuevo->atomo = atomo;
+    ptrNuevo->ptrSig = NULL;
+
+    ptrAnterior = NULL;
+    ptrActual = *ptrS;
+
+    while( ptrActual != NULL ){
+      ptrAnterior = ptrActual;
+      ptrActual = ptrActual->ptrSig;
+    }
+
+    if ( ptrAnterior == NULL ){
+      ptrNuevo->ptrSig = *ptrS;
+      *ptrS = ptrNuevo;
+    }
+    else{
+      ptrAnterior->ptrSig = ptrNuevo;
+      ptrNuevo->ptrSig = ptrActual;
+    }
+  }
+  else{
+    printf("No se inserto el valor\n");
+  }
+}
+
+void imprimeListaAtomos( ptrNodoListaAtomos ptrActual ){
+  char pos = 0;
+
+  if ( ptrActual == NULL) {
+    printf("La lista esta vacia\n");
+  }
+  else{
+    while(ptrActual != NULL){
+        printf("%c", (ptrActual->atomo) );
+        ptrActual = ptrActual->ptrSig;
     }
     printf("NULL\n");
   }
