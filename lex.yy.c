@@ -2375,11 +2375,7 @@ void TBP(){
       printf("Error TBP");
     }
   }
-  else if( s == 's' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-  }
-  else if( s == 'r' ){
+  else if( s == 's' || s == 'r' ){
     s = ptrInicialAtomos->atomo;
     ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
@@ -2442,7 +2438,7 @@ void J(){
 void L(){
   printf("Produccion L\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && s == ','){
+  if( s == ','){
     s = ptrInicialAtomos->atomo;
     ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     if( s == 'a'){
@@ -2456,7 +2452,7 @@ void L(){
       printf("Error L");
     }
   }
-  else if( ptrInicialAtomos != NULL && s == '.'){
+  else if( s == '.'){
     s = ptrInicialAtomos->atomo;
     ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
@@ -2478,17 +2474,15 @@ void P(){
     berror = 1;
     printf("Error P");
   }
+  return;
 }
 
 void Z(){
   printf("Produccion Z\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && s == '.' ){
+  if( s == '.' ){
     s = ptrInicialAtomos->atomo;
     ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-  }
-  if(ptrInicialAtomos == NULL){
-
   }
   else if( s == 'm' ){
     M();
@@ -2546,6 +2540,14 @@ void M(){
           if( s == 'f' ){
             s = ptrInicialAtomos->atomo;
             ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            if ( s == '.' ){
+              s = ptrInicialAtomos->atomo;
+              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            }
+            else{
+              berror = 1;
+              printf("Error M");
+            }
           }
           else{
             berror = 1;
@@ -2923,5 +2925,6 @@ void Parser(){
       printf("Errores sintacticos");
     }
   }
+  return;
 }
 
