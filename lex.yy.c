@@ -650,30 +650,30 @@ char *yytext;
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
   //Funciones del analizador SINTACTICO
-  void S();
-  void D();
-  void DP();
-  void TBP();
-  void N();
-  void B();
-  void J();
-  void L();
-  void P();
-  void Z();
-  void PP();
-  void M();
-  void H();
-  void I();
-  void G();
-  void FP();
-  void A();
-  void R();
-  void O();
-  void E();
-  void EP();
-  void T();
-  void TP();
-  void F();
+  void S(ptrNodoListaAtomos cadena);
+  void D(ptrNodoListaAtomos cadena);
+  void DP(ptrNodoListaAtomos cadena);
+  void TBP(ptrNodoListaAtomos cadena);
+  void N(ptrNodoListaAtomos cadena);
+  void B(ptrNodoListaAtomos cadena);
+  void J(ptrNodoListaAtomos cadena);
+  void L(ptrNodoListaAtomos cadena);
+  void P(ptrNodoListaAtomos cadena);
+  void Z(ptrNodoListaAtomos cadena);
+  void PP(ptrNodoListaAtomos cadena);
+  void M(ptrNodoListaAtomos cadena);
+  void H(ptrNodoListaAtomos cadena);
+  void I(ptrNodoListaAtomos cadena);
+  void G(ptrNodoListaAtomos cadena);
+  void FP(ptrNodoListaAtomos cadena);
+  void A(ptrNodoListaAtomos cadena);
+  void R(ptrNodoListaAtomos cadena);
+  void O(ptrNodoListaAtomos cadena);
+  void E(ptrNodoListaAtomos cadena);
+  void EP(ptrNodoListaAtomos cadena);
+  void T(ptrNodoListaAtomos cadena);
+  void TP(ptrNodoListaAtomos cadena);
+  void F(ptrNodoListaAtomos cadena);
   void Parser(ptrNodoListaAtomos cadena);
 #line 679 "lex.yy.c"
 
@@ -2306,11 +2306,11 @@ void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
 
 
 //FUNCIONES RECURSIVAS DEL ANALIZADOR SINTACTICO
-void S(){
+void S(ptrNodoListaAtomos cadena){
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    T();
-    DP();
-    P();
+    T(cadena->ptrSig);
+    DP(cadena->ptrSig);
+    P(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2318,55 +2318,52 @@ void S(){
   return;
 }
 
-void D(){
+void D(ptrNodoListaAtomos cadena){
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    T();
+    T(cadena->ptrSig);
     if(s == 'a'){
-        s = getchar();
-        B();
-        L();
-        return;
+        s = cadena->atomo;
+        B(cadena->ptrSig);
+        L(cadena->ptrSig);
     }
     else{
       printf("Error");
-      return;
     }
   }
   else{
     printf("Error");
-    return;
   }
+  return;
 }
 
-void DP(){
+void DP(ptrNodoListaAtomos cadena){
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    D();
-    DP();
+    D(cadena->ptrSig);
+    DP(cadena->ptrSig);
   }
   else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-    return;
+
   } else {
     printf("Error");
   }
   return;
 }
 
-void TBP(){
+void TBP(ptrNodoListaAtomos cadena){
   if( s == 'c' || s == 'l' ){
-    N();
+    N(cadena->ptrSig);
     if( s == 'e'){
-      s = getchar();
+      s = cadena->atomo;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else if( s == 's' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else if( s == 'r' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else {
     printf("Error");
@@ -2374,12 +2371,12 @@ void TBP(){
   return;
 }
 
-void N(){
+void N(ptrNodoListaAtomos cadena){
   if( s == 'c' || s == 'l' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else if( s == 'e'){
-    return;
+
   }
   else{
     printf("Error");
@@ -2387,13 +2384,13 @@ void N(){
   return;
 }
 
-void B(){
+void B(ptrNodoListaAtomos cadena){
   if( s == '=' ){
-    s = getchar();
-    J();
+    s = cadena->atomo;
+    J(cadena->ptrSig);
   }
   else if( s == 'l' ){
-    return;
+
   }
   else{
     printf("Error");
@@ -2401,9 +2398,9 @@ void B(){
   return;
 }
 
-void J(){
+void J(ptrNodoListaAtomos cadena){
   if( s == 'x' || s == 'z'){
-    s = getchar();
+    s = cadena->atomo;
   }
   else{
     printf("Error");
@@ -2411,21 +2408,20 @@ void J(){
   return;
 }
 
-void L(){
+void L(ptrNodoListaAtomos cadena){
   if( s == ','){
-    s = getchar();
+    s = cadena->atomo;
     if( s == 'a'){
-      s = getchar();
-      B();
-      L();
+      s = cadena->atomo;
+      B(cadena->ptrSig);
+      L(cadena->ptrSig);
     }
     else{
       printf("Error");
     }
-    return;
   }
   else if( s == '.'){
-    s = getchar();
+    s = cadena->atomo;
   }
   else{
     printf("Error");
@@ -2433,35 +2429,34 @@ void L(){
   return;
 }
 
-void P(){
+void P(ptrNodoListaAtomos cadena){
   if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-    Z();
-    PP();
+    Z(cadena->ptrSig);
+    PP(cadena->ptrSig);
   }
   else{
     printf("Error");
   }
-  return;
 }
 
-void Z(){
+void Z(ptrNodoListaAtomos cadena){
   if( s == '.' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else if( s == 'm' ){
-    M();
+    M(cadena->ptrSig);
   }
   else if( s == 'h' ){
-    H();
+    H(cadena->ptrSig);
   }
   else if( s == 'i' ){
-    I();
+    I(cadena->ptrSig);
   }
   else if( s == 'd' ){
-    FP();
+    FP(cadena->ptrSig);
   }
   else if( s == 'a' ){
-    A();
+    A(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2469,13 +2464,13 @@ void Z(){
   return;
 }
 
-void PP(){
+void PP(ptrNodoListaAtomos cadena){
   if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-    Z();
-    PP();
+    Z(cadena->ptrSig);
+    PP(cadena->ptrSig);
   }
-  else if( s == 'f' || s == 'b' || s == 'm' || s == 'n' || s == 'g' || s == '\0' ){
-    return;
+  else if( s == 'f' || s == 'b' || s == 'm' || s == 'n' || s == 'g' || cadena == NULL ){
+
   }
   else{
     printf("Error");
@@ -2483,32 +2478,29 @@ void PP(){
   return;
 }
 
-void M(){
+void M(ptrNodoListaAtomos cadena){
   if( s == 'm' ){
-    s = getchar();
+    s = cadena->atomo;
     if( s == '(' ){
-      s = getchar();
-      R();
+      s = cadena->atomo;
+      R(cadena->ptrSig);
       if( s == ')' ){
-          s = getchar();
-          P();
+          s = cadena->atomo;
+          P(cadena->ptrSig);
           if( s == 'f' ){
-            s = getchar();
+            s = cadena->atomo;
           }
           else{
             printf("Error");
           }
-          return;
       }
       else{
         printf("Error");
       }
-      return;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else{
     printf("Error");
@@ -2516,39 +2508,35 @@ void M(){
   return;
 }
 
-void H(){
+void H(ptrNodoListaAtomos cadena){
   if( s == 'h' ){
-    s = getchar();
-    P();
+    s = cadena->atomo;
+    P(cadena->ptrSig);
     if( s == 'm' ){
-      s = getchar();
+      s = cadena->atomo;
       if( s == '(' ){
-        s = getchar();
-        R();
+        s = cadena->atomo;
+        R(cadena->ptrSig);
         if( s == ')' ){
-          s = getchar();
+          s = cadena->atomo;
           if( s == '.' ){
-            s = getchar();
+            s = cadena->atomo;
           }
           else{
             printf("Error");
           }
-          return;
         }
         else{
           printf("Error");
         }
-        return;
       }
       else{
         printf("Error");
       }
-      return;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else{
     printf("Error");
@@ -2556,26 +2544,24 @@ void H(){
   return;
 }
 
-void I(){
+void I(ptrNodoListaAtomos cadena){
   if( s == 'i' ){
-    s = getchar();
+    s = cadena->atomo;
     if( s == '(' ){
-      s = getchar();
-      R();
+      s = cadena->atomo;
+      R(cadena->ptrSig);
       if( s == ')' ){
-        s = getchar();
-        P();
-        G();
+        s = cadena->atomo;
+        P(cadena->ptrSig);
+        G(cadena->ptrSig);
       }
       else{
         printf("Error");
       }
-      return;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else{
     printf("Error");
@@ -2583,20 +2569,19 @@ void I(){
   return;
 }
 
-void G(){
+void G(ptrNodoListaAtomos cadena){
   if( s == 'n' ){
-    s = getchar();
-    P();
+    s = cadena->atomo;
+    P(cadena->ptrSig);
     if( s == 'b' ){
-      s = getchar();
+      s = cadena->atomo;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else if( s == 'b' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else{
     printf("Error");
@@ -2604,62 +2589,55 @@ void G(){
   return;
 }
 
-void FP(){
+void FP(ptrNodoListaAtomos cadena){
   if( s == 'd' ){
-    s = getchar();
-    A();
+    s = cadena->atomo;
+    A(cadena->ptrSig);
     if( s == 't' ){
-      s = getchar();
+      s = cadena->atomo;
       if( s == '(' ){
-        s = getchar();
-        E();
+        s = cadena->atomo;
+        E(cadena->ptrSig);
         if( s == ')' ){
-          s = getchar();
+          s = cadena->atomo;
           if( s == 'p' ){
-            s = getchar();
+            s = cadena->atomo;
             if( s == '(' ){
-              s = getchar();
-              E();
+              s = cadena->atomo;
+              E(cadena->ptrSig);
               if( s == ')' ){
-                s = getchar();
-                P();
+                s = cadena->atomo;
+                P(cadena->ptrSig);
                 if( s == 'g' ){
-                  s = getchar();
+                  s = cadena->atomo;
                 }
                 else{
                   printf("Error");
                 }
-                return;
               }
               else{
                 printf("Error");
               }
-              return;
             }
             else{
               printf("Error");
             }
-            return;
           }
           else{
             printf("Error");
           }
-          return;
         }
         else{
           printf("Error");
         }
-        return;
       }
       else{
         printf("Error");
       }
-      return;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else{
     printf("Error");
@@ -2667,24 +2645,22 @@ void FP(){
   return;
 }
 
-void A(){
+void A(ptrNodoListaAtomos cadena){
   if( s == 'a' ){
-    s = getchar();
+    s = cadena->atomo;
     if( s == '=' ){
-      s = getchar();
-      E();
+      s = cadena->atomo;
+      E(cadena->ptrSig);
       if( s == '.' ){
-        s = getchar();
+        s = cadena->atomo;
       }
       else{
         printf("Error");
       }
-      return;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else{
     printf("Error");
@@ -2692,11 +2668,11 @@ void A(){
   return;
 }
 
-void R(){
+void R(ptrNodoListaAtomos cadena){
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    E();
-    O();
-    E();
+    E(cadena->ptrSig);
+    O(cadena->ptrSig);
+    E(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2704,9 +2680,9 @@ void R(){
   return;
 }
 
-void O(){
+void O(ptrNodoListaAtomos cadena){
   if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else{
     printf("Error");
@@ -2714,10 +2690,10 @@ void O(){
   return;
 }
 
-void E(){
+void E(ptrNodoListaAtomos cadena){
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    T();
-    EP();
+    T(cadena->ptrSig);
+    EP(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2725,14 +2701,14 @@ void E(){
   return;
 }
 
-void EP(){
+void EP(ptrNodoListaAtomos cadena){
   if( s == '+' || s == '-' ){
-    s = getchar();
-    T();
-    EP();
+    s = cadena->atomo;
+    T(cadena->ptrSig);
+    EP(cadena->ptrSig);
   }
   else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    return;
+
   }
   else{
     printf("Error");
@@ -2740,10 +2716,10 @@ void EP(){
   return;
 }
 
-void T(){
+void T(ptrNodoListaAtomos cadena){
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    F();
-    TP();
+    F(cadena->ptrSig);
+    TP(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2751,14 +2727,14 @@ void T(){
   return;
 }
 
-void TP(){
+void TP(ptrNodoListaAtomos cadena){
   if( s == '*' || s == '/' ){
-    s = getchar();
-    F();
-    TP();
+    s = cadena->atomo;
+    F(cadena->ptrSig);
+    TP(cadena->ptrSig);
   }
   else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    return;
+
   }
   else{
     printf("Error");
@@ -2766,23 +2742,22 @@ void TP(){
   return;
 }
 
-void F(){
+void F(ptrNodoListaAtomos cadena){
   if( s == '(' ){
-    s = getchar();
-    E();
+    s = cadena->atomo;
+    E(cadena->ptrSig);
     if( s == ')' ){
-      s = getchar();
+      s = cadena->atomo;
     }
     else{
       printf("Error");
     }
-    return;
   }
   else if( s == 'a' ){
-    s = getchar();
+    s = cadena->atomo;
   }
   else if( s == 'x' || s == 'z' ){
-    J();
+    J(cadena->ptrSig);
   }
   else{
     printf("Error");
@@ -2792,8 +2767,8 @@ void F(){
 
 void Parser(ptrNodoListaAtomos cadena){
   s = cadena->atomo;
-  S();
-  if( s == '\0' ){
+  S(cadena->ptrSig);
+  if( s == '.' ){
     printf("PROGRAMA CORRECTO");
   }
   else{
