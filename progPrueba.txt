@@ -1,1 +1,13 @@
-_corto a := 20 .
+_corto _entero a,b,c .
+_largo _entero suma, resta .
+a := 3 .
+b := 4 .
+c := 5 .
+_mientras(a <= b)
+  suma := c + 2 .
+  _si( suma > 20 )
+    a := b + 1 .
+  _finsi
+  a := a + 1 .
+  c := c * 3 .
+_finmientras

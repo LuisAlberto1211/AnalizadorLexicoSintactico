@@ -100,6 +100,7 @@
 
   char c[16];
   char s;
+  char berror = 0;
 
   //Estructuras donde se almacenaran las cadenas una vez identificadas
   ptrNodoLista ptrInicialTokens = NULL;
@@ -111,31 +112,31 @@
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
   //Funciones del analizador SINTACTICO
-  void S(ptrNodoListaAtomos cadena);
-  void D(ptrNodoListaAtomos cadena);
-  void DP(ptrNodoListaAtomos cadena);
-  void TBP(ptrNodoListaAtomos cadena);
-  void N(ptrNodoListaAtomos cadena);
-  void B(ptrNodoListaAtomos cadena);
-  void J(ptrNodoListaAtomos cadena);
-  void L(ptrNodoListaAtomos cadena);
-  void P(ptrNodoListaAtomos cadena);
-  void Z(ptrNodoListaAtomos cadena);
-  void PP(ptrNodoListaAtomos cadena);
-  void M(ptrNodoListaAtomos cadena);
-  void H(ptrNodoListaAtomos cadena);
-  void I(ptrNodoListaAtomos cadena);
-  void G(ptrNodoListaAtomos cadena);
-  void FP(ptrNodoListaAtomos cadena);
-  void A(ptrNodoListaAtomos cadena);
-  void R(ptrNodoListaAtomos cadena);
-  void O(ptrNodoListaAtomos cadena);
-  void E(ptrNodoListaAtomos cadena);
-  void EP(ptrNodoListaAtomos cadena);
-  void T(ptrNodoListaAtomos cadena);
-  void TP(ptrNodoListaAtomos cadena);
-  void F(ptrNodoListaAtomos cadena);
-  void Parser(ptrNodoListaAtomos cadena);
+  void S();
+  void D();
+  void DP();
+  void TBP();
+  void N();
+  void B();
+  void J();
+  void L();
+  void P();
+  void Z();
+  void PP();
+  void M();
+  void H();
+  void I();
+  void G();
+  void FP();
+  void A();
+  void R();
+  void O();
+  void E();
+  void EP();
+  void T();
+  void TP();
+  void F();
+  void Parser();
 %}
 palRes     _corto|_desde|_entero|_findesde|_finmientras|_finsi|_hasta|_haz|_incremento|_largo|_mientras|_real|_si|_simbolo|_sino
 ident      [a-zA-Z]{1,16}
@@ -459,472 +460,620 @@ void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
 
 
 //FUNCIONES RECURSIVAS DEL ANALIZADOR SINTACTICO
-void S(ptrNodoListaAtomos cadena){
-  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    T(cadena->ptrSig);
-    DP(cadena->ptrSig);
-    P(cadena->ptrSig);
+void S(){
+  printf("Produccion S\n");
+  //printf("char: %c\n", s);
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
+    D();
+    DP();
+    P();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error en S");
   }
   return;
 }
 
-void D(ptrNodoListaAtomos cadena){
-  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    T(cadena->ptrSig);
-    if(s == 'a'){
-        s = cadena->atomo;
-        B(cadena->ptrSig);
-        L(cadena->ptrSig);
+void D(){
+  printf("Produccion D\n");
+  //printf("char: %c\n", s);
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
+    TBP();
+    if( s == 'a'){
+        s = ptrInicialAtomos->atomo;
+        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        B();
+        L();
     }
     else{
-      printf("Error");
+      printf("Un tipo de dato debe ser seguido por un identificador\n");
+      berror = 1;
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error D");
   }
   return;
 }
 
-void DP(ptrNodoListaAtomos cadena){
-  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
-    D(cadena->ptrSig);
-    DP(cadena->ptrSig);
+void DP(){
+  printf("Produccion DP\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
+    D();
+    DP();
   }
   else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
 
   } else {
-    printf("Error");
+    berror = 1;
+    printf("Error DP");
   }
   return;
 }
 
-void TBP(ptrNodoListaAtomos cadena){
-  if( s == 'c' || s == 'l' ){
-    N(cadena->ptrSig);
-    if( s == 'e'){
-      s = cadena->atomo;
+void TBP(){
+  printf("Produccion TBP\n");
+  //printf("char: %c\n", s);
+  if( s == 'c' || s == 'l' || s == 'e' ){
+    N();
+    if( s == 'e' ){
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error TBP");
     }
   }
   else if( s == 's' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else if( s == 'r' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else {
-    printf("Error");
+    berror = 1;
+    printf("Error TBP");
   }
   return;
 }
 
-void N(ptrNodoListaAtomos cadena){
-  if( s == 'c' || s == 'l' ){
-    s = cadena->atomo;
+void N(){
+  printf("Produccion N\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && ( s == 'c' || s == 'l') ){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else if( s == 'e'){
 
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error en N");
   }
   return;
 }
 
-void B(ptrNodoListaAtomos cadena){
-  if( s == '=' ){
-    s = cadena->atomo;
-    J(cadena->ptrSig);
+void B(){
+  printf("Produccion B\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && s == '=' ){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    J();
   }
-  else if( s == 'l' ){
+  else if( s == '.' || s == ',' ){
 
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error B");
   }
   return;
 }
 
-void J(ptrNodoListaAtomos cadena){
+void J(){
+  printf("Produccion J\n");
+  //printf("char: %c\n", s);
   if( s == 'x' || s == 'z'){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error J");
   }
   return;
 }
 
-void L(ptrNodoListaAtomos cadena){
-  if( s == ','){
-    s = cadena->atomo;
+void L(){
+  printf("Produccion L\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && s == ','){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     if( s == 'a'){
-      s = cadena->atomo;
-      B(cadena->ptrSig);
-      L(cadena->ptrSig);
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      B();
+      L();
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error L");
     }
   }
-  else if( s == '.'){
-    s = cadena->atomo;
+  else if( ptrInicialAtomos != NULL && s == '.'){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error L");
   }
   return;
 }
 
-void P(ptrNodoListaAtomos cadena){
+void P(){
+  printf("Produccion P\n");
+  //printf("char: %c\n", s);
   if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-    Z(cadena->ptrSig);
-    PP(cadena->ptrSig);
+    Z();
+    PP();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error P");
   }
 }
 
-void Z(ptrNodoListaAtomos cadena){
-  if( s == '.' ){
-    s = cadena->atomo;
+void Z(){
+  printf("Produccion Z\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && s == '.' ){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  }
+  if(ptrInicialAtomos == NULL){
+
   }
   else if( s == 'm' ){
-    M(cadena->ptrSig);
+    M();
   }
   else if( s == 'h' ){
-    H(cadena->ptrSig);
+    H();
   }
   else if( s == 'i' ){
-    I(cadena->ptrSig);
+    I();
   }
   else if( s == 'd' ){
-    FP(cadena->ptrSig);
+    FP();
   }
   else if( s == 'a' ){
-    A(cadena->ptrSig);
+    A();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error Z");
   }
   return;
 }
 
-void PP(ptrNodoListaAtomos cadena){
-  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-    Z(cadena->ptrSig);
-    PP(cadena->ptrSig);
+void PP(){
+  printf("Produccion PP\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && ( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a') ){
+    Z();
+    PP();
   }
-  else if( s == 'f' || s == 'b' || s == 'm' || s == 'n' || s == 'g' || cadena == NULL ){
+  else if( ptrInicialAtomos == NULL || s == 'f' || s == 'b' || s == 't' || s == 'n' || s == 'g' ){
 
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error PP");
   }
   return;
 }
 
-void M(ptrNodoListaAtomos cadena){
+void M(){
+  printf("Produccion M\n");
+  //printf("char: %c\n", s);
   if( s == 'm' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     if( s == '(' ){
-      s = cadena->atomo;
-      R(cadena->ptrSig);
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      R();
       if( s == ')' ){
-          s = cadena->atomo;
-          P(cadena->ptrSig);
+          s = ptrInicialAtomos->atomo;
+          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          P();
           if( s == 'f' ){
-            s = cadena->atomo;
+            s = ptrInicialAtomos->atomo;
+            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
           }
           else{
-            printf("Error");
+            berror = 1;
+            printf("Error M");
           }
       }
       else{
-        printf("Error");
+        berror = 1;
+        printf("Error M");
       }
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error M");
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error M");
   }
   return;
 }
 
-void H(ptrNodoListaAtomos cadena){
+void H(){
+  printf("Produccion H\n");
+  //printf("char: %c\n", s);
   if( s == 'h' ){
-    s = cadena->atomo;
-    P(cadena->ptrSig);
-    if( s == 'm' ){
-      s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    P();
+    if( s == 't' ){
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
       if( s == '(' ){
-        s = cadena->atomo;
-        R(cadena->ptrSig);
+        s = ptrInicialAtomos->atomo;
+        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        R();
         if( s == ')' ){
-          s = cadena->atomo;
+          s = ptrInicialAtomos->atomo;
+          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
           if( s == '.' ){
-            s = cadena->atomo;
+            s = ptrInicialAtomos->atomo;
+            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
           }
           else{
-            printf("Error");
+            berror = 1;
+            printf("Error H");
           }
         }
         else{
-          printf("Error");
+          berror = 1;
+          printf("Error H");
         }
       }
       else{
-        printf("Error");
+        berror = 1;
+        printf("Error H");
       }
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error H");
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error H");
   }
   return;
 }
 
-void I(ptrNodoListaAtomos cadena){
+void I(){
+  printf("Produccion I\n");
+  //printf("char: %c\n", s);
   if( s == 'i' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     if( s == '(' ){
-      s = cadena->atomo;
-      R(cadena->ptrSig);
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      R();
       if( s == ')' ){
-        s = cadena->atomo;
-        P(cadena->ptrSig);
-        G(cadena->ptrSig);
+        s = ptrInicialAtomos->atomo;
+        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        P();
+        G();
       }
       else{
-        printf("Error");
+        berror = 1;
+        printf("Error I");
       }
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error I");
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error I");
   }
   return;
 }
 
-void G(ptrNodoListaAtomos cadena){
+void G(){
+  printf("Produccion G\n");
+  //printf("char: %c\n", s);
   if( s == 'n' ){
-    s = cadena->atomo;
-    P(cadena->ptrSig);
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    P();
     if( s == 'b' ){
-      s = cadena->atomo;
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error G");
     }
   }
   else if( s == 'b' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error G");
   }
   return;
 }
 
-void FP(ptrNodoListaAtomos cadena){
+void FP(){
+  printf("Produccion FP\n");
+  //printf("char: %c\n", s);
   if( s == 'd' ){
-    s = cadena->atomo;
-    A(cadena->ptrSig);
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    A();
     if( s == 't' ){
-      s = cadena->atomo;
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
       if( s == '(' ){
-        s = cadena->atomo;
-        E(cadena->ptrSig);
+        s = ptrInicialAtomos->atomo;
+        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        E();
         if( s == ')' ){
-          s = cadena->atomo;
+          s = ptrInicialAtomos->atomo;
+          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
           if( s == 'p' ){
-            s = cadena->atomo;
+            s = ptrInicialAtomos->atomo;
+            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
             if( s == '(' ){
-              s = cadena->atomo;
-              E(cadena->ptrSig);
+              s = ptrInicialAtomos->atomo;
+              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+              E();
               if( s == ')' ){
-                s = cadena->atomo;
-                P(cadena->ptrSig);
+                s = ptrInicialAtomos->atomo;
+                ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+                P();
                 if( s == 'g' ){
-                  s = cadena->atomo;
+                  s = ptrInicialAtomos->atomo;
+                  ptrInicialAtomos = ptrInicialAtomos->ptrSig;
                 }
                 else{
-                  printf("Error");
+                  berror = 1;
+                  printf("Error FP");
                 }
               }
               else{
-                printf("Error");
+                berror = 1;
+                printf("Error FP");
               }
             }
             else{
-              printf("Error");
+              berror = 1;
+              printf("Error FP");
             }
           }
           else{
-            printf("Error");
+            berror = 1;
+            printf("Error FP");
           }
         }
         else{
-          printf("Error");
+          berror = 1;
+          printf("Error FP");
         }
       }
       else{
-        printf("Error");
+        berror = 1;
+        printf("Error FP");
       }
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error FP");
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error FP");
   }
   return;
 }
 
-void A(ptrNodoListaAtomos cadena){
+void A(){
+  printf("Produccion A\n");
+  //printf("char: %c\n", s);
   if( s == 'a' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     if( s == '=' ){
-      s = cadena->atomo;
-      E(cadena->ptrSig);
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      E();
       if( s == '.' ){
-        s = cadena->atomo;
+        s = ptrInicialAtomos->atomo;
+        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
       }
       else{
-        printf("Error");
+        berror = 1;
+        printf("Error A");
       }
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error A");
     }
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error A");
   }
   return;
 }
 
-void R(ptrNodoListaAtomos cadena){
+void R(){
+  printf("Produccion R\n");
+  //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    E(cadena->ptrSig);
-    O(cadena->ptrSig);
-    E(cadena->ptrSig);
+    E();
+    O();
+    E();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error R");
   }
   return;
 }
 
-void O(ptrNodoListaAtomos cadena){
+void O(){
+  printf("Produccion O\n");
+  //printf("char: %c\n", s);
   if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error O");
   }
   return;
 }
 
-void E(ptrNodoListaAtomos cadena){
+void E(){
+  printf("Produccion E\n");
+  //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    T(cadena->ptrSig);
-    EP(cadena->ptrSig);
+    T();
+    EP();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error E");
   }
   return;
 }
 
-void EP(ptrNodoListaAtomos cadena){
-  if( s == '+' || s == '-' ){
-    s = cadena->atomo;
-    T(cadena->ptrSig);
-    EP(cadena->ptrSig);
+void EP(){
+  printf("Produccion EP\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && ( s == '+' || s == '-' ) ){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    T();
+    EP();
   }
   else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
 
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error EP");
   }
   return;
 }
 
-void T(ptrNodoListaAtomos cadena){
+void T(){
+  printf("Produccion T\n");
+  //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
-    F(cadena->ptrSig);
-    TP(cadena->ptrSig);
+    F();
+    TP();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error T");
   }
   return;
 }
 
-void TP(ptrNodoListaAtomos cadena){
-  if( s == '*' || s == '/' ){
-    s = cadena->atomo;
-    F(cadena->ptrSig);
-    TP(cadena->ptrSig);
+void TP(){
+  printf("Produccion TP\n");
+  //printf("char: %c\n", s);
+  if( ptrInicialAtomos != NULL && ( s == '*' || s == '/' ) ){
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    F();
+    TP();
   }
   else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
 
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error TP");
   }
   return;
 }
 
-void F(ptrNodoListaAtomos cadena){
+void F(){
+  printf("Produccion F\n");
+  //printf("char: %c\n", s);
   if( s == '(' ){
-    s = cadena->atomo;
-    E(cadena->ptrSig);
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    E();
     if( s == ')' ){
-      s = cadena->atomo;
+      s = ptrInicialAtomos->atomo;
+      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
     }
     else{
-      printf("Error");
+      berror = 1;
+      printf("Error F");
     }
   }
   else if( s == 'a' ){
-    s = cadena->atomo;
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
   }
   else if( s == 'x' || s == 'z' ){
-    J(cadena->ptrSig);
+    J();
   }
   else{
-    printf("Error");
+    berror = 1;
+    printf("Error F");
   }
   return;
 }
 
-void Parser(ptrNodoListaAtomos cadena){
-  s = cadena->atomo;
-  S(cadena->ptrSig);
-  if( s == '.' ){
-    printf("PROGRAMA CORRECTO");
+void Parser(){
+  printf("Produccion Parser\n");
+  if(ptrInicialAtomos == NULL){
+    printf("Error en el apuntador");
   }
   else{
-    printf("Errores sintacticos");
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    S();
+    if( berror != 1 ){
+      printf("PROGRAMA CORRECTO");
+    }
+    else{
+      printf("Errores sintacticos");
+    }
   }
 }
