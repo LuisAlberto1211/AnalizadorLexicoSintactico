@@ -638,6 +638,7 @@ char *yytext;
   FILE *archSalida;
 
   char c[16];
+  char s;
 
   //Estructuras donde se almacenaran las cadenas una vez identificadas
   ptrNodoLista ptrInicialTokens = NULL;
@@ -648,7 +649,33 @@ char *yytext;
   ptrNodoListaExpandible ptrInicialError = NULL;
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
-#line 652 "lex.yy.c"
+  //Funciones del analizador SINTACTICO
+  void S();
+  void D();
+  void DP();
+  void TBP();
+  void N();
+  void B();
+  void J();
+  void L();
+  void P();
+  void Z();
+  void PP();
+  void M();
+  void H();
+  void I();
+  void G();
+  void FP();
+  void A();
+  void R();
+  void O();
+  void E();
+  void EP();
+  void T();
+  void TP();
+  void F();
+  void Parser(ptrNodoListaAtomos cadena);
+#line 679 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -830,9 +857,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 127 "analizLexSem.l"
+#line 154 "analizLexSem.l"
 
-#line 836 "lex.yy.c"
+#line 863 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -917,76 +944,76 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 128 "analizLexSem.l"
+#line 155 "analizLexSem.l"
 j = buscaElemento(op.palRes, yytext, SIMB_PALRES_NUM); insertarToken(&ptrInicialTokens, 0, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 129 "analizLexSem.l"
+#line 156 "analizLexSem.l"
 insertar(&ptrInicialIden, yytext, 1); insertarAtomo(&ptrInicialAtomos, 'a');
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 130 "analizLexSem.l"
+#line 157 "analizLexSem.l"
 j = buscaElemento(op.opAsig, yytext, SIMB_ASIG_NUM); insertarToken(&ptrInicialTokens, 2, j); insertarAtomo(&ptrInicialAtomos, '=');
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 131 "analizLexSem.l"
+#line 158 "analizLexSem.l"
 j = buscaElemento(op.opRel, yytext, SIMB_REL_NUM); insertarToken(&ptrInicialTokens, 3, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 132 "analizLexSem.l"
+#line 159 "analizLexSem.l"
 j = buscaElemento(op.opArit, yytext, SIMB_ARIT_NUM); insertarToken(&ptrInicialTokens, 4, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 133 "analizLexSem.l"
+#line 160 "analizLexSem.l"
 j = buscaElemento(op.simbEsp, yytext, SIMB_ESP_NUM); insertarToken(&ptrInicialTokens, 5, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 134 "analizLexSem.l"
+#line 161 "analizLexSem.l"
 insertar(&ptrInicialCad,yytext, 6); insertarAtomo(&ptrInicialAtomos, 'y');
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 135 "analizLexSem.l"
+#line 162 "analizLexSem.l"
 insertar(&ptrInicialConstEnt,yytext, 7); insertarAtomo(&ptrInicialAtomos, 'x');
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 136 "analizLexSem.l"
+#line 163 "analizLexSem.l"
 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 137 "analizLexSem.l"
+#line 164 "analizLexSem.l"
 insertar(&ptrInicialConstReal,yytext, 8); insertarAtomo(&ptrInicialAtomos, 'z');
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 138 "analizLexSem.l"
+#line 165 "analizLexSem.l"
 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 139 "analizLexSem.l"
+#line 166 "analizLexSem.l"
 insertar(&ptrInicialError,yytext, 9);
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 140 "analizLexSem.l"
+#line 167 "analizLexSem.l"
 
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 141 "analizLexSem.l"
+#line 168 "analizLexSem.l"
 ECHO;
 	YY_BREAK
-#line 990 "lex.yy.c"
+#line 1017 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1983,7 +2010,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 141 "analizLexSem.l"
+#line 168 "analizLexSem.l"
 
 
 int main(int argc, char *argv[]){
@@ -2000,7 +2027,7 @@ int main(int argc, char *argv[]){
   lista2Archivo(ptrInicialConstEnt, "Constantes enteras", archSalida);
   lista2Archivo(ptrInicialConstReal, "Constantes reales", archSalida);
   lista2Archivo(ptrInicialError, "Errores", archSalida);
-
+  Parser(ptrInicialAtomos);
   fclose(archSalida);
 
   return 0;
@@ -2189,6 +2216,7 @@ void imprimeLista( ptrNodoListaExpandible ptrActual ){
   }
 }
 
+//Funciones de la lista ligada para la cadena de ATOMOS
 void insertarAtomo( ptrNodoListaAtomos *ptrS, char atomo){
   ptrNodoListaAtomos ptrNuevo;
   ptrNodoListaAtomos ptrAnterior;
@@ -2274,5 +2302,502 @@ void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
     ptrActual = ptrActual->ptrSig;
   }
   fprintf(archSalida, "\n");
+}
+
+
+//FUNCIONES RECURSIVAS DEL ANALIZADOR SINTACTICO
+void S(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    T();
+    DP();
+    P();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void D(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    T();
+    if(s == 'a'){
+        s = getchar();
+        B();
+        L();
+        return;
+    }
+    else{
+      printf("Error");
+      return;
+    }
+  }
+  else{
+    printf("Error");
+    return;
+  }
+}
+
+void DP(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    D();
+    DP();
+  }
+  else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    return;
+  } else {
+    printf("Error");
+  }
+  return;
+}
+
+void TBP(){
+  if( s == 'c' || s == 'l' ){
+    N();
+    if( s == 'e'){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 's' ){
+    s = getchar();
+  }
+  else if( s == 'r' ){
+    s = getchar();
+  }
+  else {
+    printf("Error");
+  }
+  return;
+}
+
+void N(){
+  if( s == 'c' || s == 'l' ){
+    s = getchar();
+  }
+  else if( s == 'e'){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void B(){
+  if( s == '=' ){
+    s = getchar();
+    J();
+  }
+  else if( s == 'l' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void J(){
+  if( s == 'x' || s == 'z'){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void L(){
+  if( s == ','){
+    s = getchar();
+    if( s == 'a'){
+      s = getchar();
+      B();
+      L();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == '.'){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void P(){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    Z();
+    PP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void Z(){
+  if( s == '.' ){
+    s = getchar();
+  }
+  else if( s == 'm' ){
+    M();
+  }
+  else if( s == 'h' ){
+    H();
+  }
+  else if( s == 'i' ){
+    I();
+  }
+  else if( s == 'd' ){
+    FP();
+  }
+  else if( s == 'a' ){
+    A();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void PP(){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    Z();
+    PP();
+  }
+  else if( s == 'f' || s == 'b' || s == 'm' || s == 'n' || s == 'g' || s == '\0' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void M(){
+  if( s == 'm' ){
+    s = getchar();
+    if( s == '(' ){
+      s = getchar();
+      R();
+      if( s == ')' ){
+          s = getchar();
+          P();
+          if( s == 'f' ){
+            s = getchar();
+          }
+          else{
+            printf("Error");
+          }
+          return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void H(){
+  if( s == 'h' ){
+    s = getchar();
+    P();
+    if( s == 'm' ){
+      s = getchar();
+      if( s == '(' ){
+        s = getchar();
+        R();
+        if( s == ')' ){
+          s = getchar();
+          if( s == '.' ){
+            s = getchar();
+          }
+          else{
+            printf("Error");
+          }
+          return;
+        }
+        else{
+          printf("Error");
+        }
+        return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void I(){
+  if( s == 'i' ){
+    s = getchar();
+    if( s == '(' ){
+      s = getchar();
+      R();
+      if( s == ')' ){
+        s = getchar();
+        P();
+        G();
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void G(){
+  if( s == 'n' ){
+    s = getchar();
+    P();
+    if( s == 'b' ){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 'b' ){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void FP(){
+  if( s == 'd' ){
+    s = getchar();
+    A();
+    if( s == 't' ){
+      s = getchar();
+      if( s == '(' ){
+        s = getchar();
+        E();
+        if( s == ')' ){
+          s = getchar();
+          if( s == 'p' ){
+            s = getchar();
+            if( s == '(' ){
+              s = getchar();
+              E();
+              if( s == ')' ){
+                s = getchar();
+                P();
+                if( s == 'g' ){
+                  s = getchar();
+                }
+                else{
+                  printf("Error");
+                }
+                return;
+              }
+              else{
+                printf("Error");
+              }
+              return;
+            }
+            else{
+              printf("Error");
+            }
+            return;
+          }
+          else{
+            printf("Error");
+          }
+          return;
+        }
+        else{
+          printf("Error");
+        }
+        return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void A(){
+  if( s == 'a' ){
+    s = getchar();
+    if( s == '=' ){
+      s = getchar();
+      E();
+      if( s == '.' ){
+        s = getchar();
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void R(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    E();
+    O();
+    E();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void O(){
+  if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void E(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    T();
+    EP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void EP(){
+  if( s == '+' || s == '-' ){
+    s = getchar();
+    T();
+    EP();
+  }
+  else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void T(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    F();
+    TP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void TP(){
+  if( s == '*' || s == '/' ){
+    s = getchar();
+    F();
+    TP();
+  }
+  else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void F(){
+  if( s == '(' ){
+    s = getchar();
+    E();
+    if( s == ')' ){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 'a' ){
+    s = getchar();
+  }
+  else if( s == 'x' || s == 'z' ){
+    J();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void Parser(ptrNodoListaAtomos cadena){
+  s = cadena->atomo;
+  S();
+  if( s == '\0' ){
+    printf("PROGRAMA CORRECTO");
+  }
+  else{
+    printf("Errores sintacticos");
+  }
 }
 

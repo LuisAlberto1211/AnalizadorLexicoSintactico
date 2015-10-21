@@ -99,6 +99,7 @@
   FILE *archSalida;
 
   char c[16];
+  char s;
 
   //Estructuras donde se almacenaran las cadenas una vez identificadas
   ptrNodoLista ptrInicialTokens = NULL;
@@ -109,6 +110,32 @@
   ptrNodoListaExpandible ptrInicialError = NULL;
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
+  //Funciones del analizador SINTACTICO
+  void S();
+  void D();
+  void DP();
+  void TBP();
+  void N();
+  void B();
+  void J();
+  void L();
+  void P();
+  void Z();
+  void PP();
+  void M();
+  void H();
+  void I();
+  void G();
+  void FP();
+  void A();
+  void R();
+  void O();
+  void E();
+  void EP();
+  void T();
+  void TP();
+  void F();
+  void Parser(ptrNodoListaAtomos cadena);
 %}
 palRes     _corto|_desde|_entero|_findesde|_finmientras|_finsi|_hasta|_haz|_incremento|_largo|_mientras|_real|_si|_simbolo|_sino
 ident      [a-zA-Z]{1,16}
@@ -153,7 +180,7 @@ int main(int argc, char *argv[]){
   lista2Archivo(ptrInicialConstEnt, "Constantes enteras", archSalida);
   lista2Archivo(ptrInicialConstReal, "Constantes reales", archSalida);
   lista2Archivo(ptrInicialError, "Errores", archSalida);
-
+  Parser(ptrInicialAtomos);
   fclose(archSalida);
 
   return 0;
@@ -342,6 +369,7 @@ void imprimeLista( ptrNodoListaExpandible ptrActual ){
   }
 }
 
+//Funciones de la lista ligada para la cadena de ATOMOS
 void insertarAtomo( ptrNodoListaAtomos *ptrS, char atomo){
   ptrNodoListaAtomos ptrNuevo;
   ptrNodoListaAtomos ptrAnterior;
@@ -427,4 +455,501 @@ void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
     ptrActual = ptrActual->ptrSig;
   }
   fprintf(archSalida, "\n");
+}
+
+
+//FUNCIONES RECURSIVAS DEL ANALIZADOR SINTACTICO
+void S(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    T();
+    DP();
+    P();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void D(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    T();
+    if(s == 'a'){
+        s = getchar();
+        B();
+        L();
+        return;
+    }
+    else{
+      printf("Error");
+      return;
+    }
+  }
+  else{
+    printf("Error");
+    return;
+  }
+}
+
+void DP(){
+  if( s == 's' || s == 'r' || s == 'c' || s == 'l' ){
+    D();
+    DP();
+  }
+  else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    return;
+  } else {
+    printf("Error");
+  }
+  return;
+}
+
+void TBP(){
+  if( s == 'c' || s == 'l' ){
+    N();
+    if( s == 'e'){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 's' ){
+    s = getchar();
+  }
+  else if( s == 'r' ){
+    s = getchar();
+  }
+  else {
+    printf("Error");
+  }
+  return;
+}
+
+void N(){
+  if( s == 'c' || s == 'l' ){
+    s = getchar();
+  }
+  else if( s == 'e'){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void B(){
+  if( s == '=' ){
+    s = getchar();
+    J();
+  }
+  else if( s == 'l' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void J(){
+  if( s == 'x' || s == 'z'){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void L(){
+  if( s == ','){
+    s = getchar();
+    if( s == 'a'){
+      s = getchar();
+      B();
+      L();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == '.'){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void P(){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    Z();
+    PP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void Z(){
+  if( s == '.' ){
+    s = getchar();
+  }
+  else if( s == 'm' ){
+    M();
+  }
+  else if( s == 'h' ){
+    H();
+  }
+  else if( s == 'i' ){
+    I();
+  }
+  else if( s == 'd' ){
+    FP();
+  }
+  else if( s == 'a' ){
+    A();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void PP(){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
+    Z();
+    PP();
+  }
+  else if( s == 'f' || s == 'b' || s == 'm' || s == 'n' || s == 'g' || s == '\0' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void M(){
+  if( s == 'm' ){
+    s = getchar();
+    if( s == '(' ){
+      s = getchar();
+      R();
+      if( s == ')' ){
+          s = getchar();
+          P();
+          if( s == 'f' ){
+            s = getchar();
+          }
+          else{
+            printf("Error");
+          }
+          return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void H(){
+  if( s == 'h' ){
+    s = getchar();
+    P();
+    if( s == 'm' ){
+      s = getchar();
+      if( s == '(' ){
+        s = getchar();
+        R();
+        if( s == ')' ){
+          s = getchar();
+          if( s == '.' ){
+            s = getchar();
+          }
+          else{
+            printf("Error");
+          }
+          return;
+        }
+        else{
+          printf("Error");
+        }
+        return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void I(){
+  if( s == 'i' ){
+    s = getchar();
+    if( s == '(' ){
+      s = getchar();
+      R();
+      if( s == ')' ){
+        s = getchar();
+        P();
+        G();
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void G(){
+  if( s == 'n' ){
+    s = getchar();
+    P();
+    if( s == 'b' ){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 'b' ){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void FP(){
+  if( s == 'd' ){
+    s = getchar();
+    A();
+    if( s == 't' ){
+      s = getchar();
+      if( s == '(' ){
+        s = getchar();
+        E();
+        if( s == ')' ){
+          s = getchar();
+          if( s == 'p' ){
+            s = getchar();
+            if( s == '(' ){
+              s = getchar();
+              E();
+              if( s == ')' ){
+                s = getchar();
+                P();
+                if( s == 'g' ){
+                  s = getchar();
+                }
+                else{
+                  printf("Error");
+                }
+                return;
+              }
+              else{
+                printf("Error");
+              }
+              return;
+            }
+            else{
+              printf("Error");
+            }
+            return;
+          }
+          else{
+            printf("Error");
+          }
+          return;
+        }
+        else{
+          printf("Error");
+        }
+        return;
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void A(){
+  if( s == 'a' ){
+    s = getchar();
+    if( s == '=' ){
+      s = getchar();
+      E();
+      if( s == '.' ){
+        s = getchar();
+      }
+      else{
+        printf("Error");
+      }
+      return;
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void R(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    E();
+    O();
+    E();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void O(){
+  if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    s = getchar();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void E(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    T();
+    EP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void EP(){
+  if( s == '+' || s == '-' ){
+    s = getchar();
+    T();
+    EP();
+  }
+  else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void T(){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+    F();
+    TP();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void TP(){
+  if( s == '*' || s == '/' ){
+    s = getchar();
+    F();
+    TP();
+  }
+  else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void F(){
+  if( s == '(' ){
+    s = getchar();
+    E();
+    if( s == ')' ){
+      s = getchar();
+    }
+    else{
+      printf("Error");
+    }
+    return;
+  }
+  else if( s == 'a' ){
+    s = getchar();
+  }
+  else if( s == 'x' || s == 'z' ){
+    J();
+  }
+  else{
+    printf("Error");
+  }
+  return;
+}
+
+void Parser(ptrNodoListaAtomos cadena){
+  s = cadena->atomo;
+  S();
+  if( s == '\0' ){
+    printf("PROGRAMA CORRECTO");
+  }
+  else{
+    printf("Errores sintacticos");
+  }
 }
