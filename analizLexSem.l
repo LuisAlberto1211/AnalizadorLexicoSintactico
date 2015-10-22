@@ -112,6 +112,7 @@
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
   //Funciones del analizador SINTACTICO
+  void getNextChar();
   void S();
   void D();
   void DP();
@@ -146,7 +147,7 @@ opArit     [\+\-*\/]
 simbEsp    [\.,\(\)\[\]]
 consCad    \".*\"
 signo      [\+\-]
-consEnt    {signo}?[0-9]+
+consEnt    [0-9]+
 sufijo     E{consEnt}
 consReal   ({consEnt}?\.[0-9]+{sufijo}?)|({consEnt}\.{sufijo}?)
 comentario ¡.*!
@@ -181,6 +182,8 @@ int main(int argc, char *argv[]){
   lista2Archivo(ptrInicialConstEnt, "Constantes enteras", archSalida);
   lista2Archivo(ptrInicialConstReal, "Constantes reales", archSalida);
   lista2Archivo(ptrInicialError, "Errores", archSalida);
+  //Se inserta fin de cadena
+  insertarAtomo(&ptrInicialAtomos, '?');
   Parser(ptrInicialAtomos);
   fclose(archSalida);
 
@@ -481,8 +484,7 @@ void D(){
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
     TBP();
     if( s == 'a'){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         B();
         L();
     }
@@ -501,12 +503,12 @@ void D(){
 void DP(){
   printf("Produccion DP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
+  if( ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
     D();
     DP();
   }
   else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-
+    return;
   } else {
     berror = 1;
     printf("Error DP");
@@ -520,8 +522,7 @@ void TBP(){
   if( s == 'c' || s == 'l' || s == 'e' ){
     N();
     if( s == 'e' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -529,8 +530,7 @@ void TBP(){
     }
   }
   else if( s == 's' || s == 'r' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else {
     berror = 1;
@@ -542,12 +542,11 @@ void TBP(){
 void N(){
   printf("Produccion N\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == 'c' || s == 'l') ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == 'c' || s == 'l') ){
+    getNextChar();
   }
   else if( s == 'e'){
-
+    return;
   }
   else{
     berror = 1;
@@ -559,13 +558,12 @@ void N(){
 void B(){
   printf("Produccion B\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && s == '=' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( s == '=' ){
+    getNextChar();
     J();
   }
   else if( s == '.' || s == ',' ){
-
+    return;
   }
   else{
     berror = 1;
@@ -578,8 +576,7 @@ void J(){
   printf("Produccion J\n");
   //printf("char: %c\n", s);
   if( s == 'x' || s == 'z'){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -592,11 +589,9 @@ void L(){
   printf("Produccion L\n");
   //printf("char: %c\n", s);
   if( s == ','){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == 'a'){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       B();
       L();
     }
@@ -606,8 +601,7 @@ void L(){
     }
   }
   else if( s == '.'){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -634,8 +628,7 @@ void Z(){
   printf("Produccion Z\n");
   //printf("char: %c\n", s);
   if( s == '.' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else if( s == 'm' ){
     M();
@@ -662,12 +655,12 @@ void Z(){
 void PP(){
   printf("Produccion PP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a') ){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
     Z();
     PP();
   }
-  else if( ptrInicialAtomos == NULL || s == 'f' || s == 'b' || s == 't' || s == 'n' || s == 'g' ){
-
+  else if( s == '?' || s == 'f' || s == 'b' || s == 't' || s == 'n' || s == 'g' ){
+    return;
   }
   else{
     berror = 1;
@@ -680,27 +673,15 @@ void M(){
   printf("Produccion M\n");
   //printf("char: %c\n", s);
   if( s == 'm' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '(' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       R();
       if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           P();
           if( s == 'f' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-            if ( s == '.' ){
-              s = ptrInicialAtomos->atomo;
-              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-            }
-            else{
-              berror = 1;
-              printf("Error M");
-            }
+            getNextChar();
           }
           else{
             berror = 1;
@@ -728,22 +709,17 @@ void H(){
   printf("Produccion H\n");
   //printf("char: %c\n", s);
   if( s == 'h' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     P();
     if( s == 't' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       if( s == '(' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         R();
         if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           if( s == '.' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            getNextChar();
           }
           else{
             berror = 1;
@@ -776,15 +752,12 @@ void I(){
   printf("Produccion I\n");
   //printf("char: %c\n", s);
   if( s == 'i' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '(' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       R();
       if( s == ')' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         P();
         G();
       }
@@ -809,12 +782,10 @@ void G(){
   printf("Produccion G\n");
   //printf("char: %c\n", s);
   if( s == 'n' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     P();
     if( s == 'b' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -822,8 +793,7 @@ void G(){
     }
   }
   else if( s == 'b' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -836,33 +806,25 @@ void FP(){
   printf("Produccion FP\n");
   //printf("char: %c\n", s);
   if( s == 'd' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     A();
     if( s == 't' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       if( s == '(' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         E();
         if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           if( s == 'p' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            getNextChar();
             if( s == '(' ){
-              s = ptrInicialAtomos->atomo;
-              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+              getNextChar();
               E();
               if( s == ')' ){
-                s = ptrInicialAtomos->atomo;
-                ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+                getNextChar();
                 P();
                 if( s == 'g' ){
-                  s = ptrInicialAtomos->atomo;
-                  ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+                  getNextChar();
                 }
                 else{
                   berror = 1;
@@ -910,15 +872,12 @@ void A(){
   printf("Produccion A\n");
   //printf("char: %c\n", s);
   if( s == 'a' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '=' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       E();
       if( s == '.' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
       }
       else{
         berror = 1;
@@ -956,8 +915,7 @@ void O(){
   printf("Produccion O\n");
   //printf("char: %c\n", s);
   if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -983,14 +941,13 @@ void E(){
 void EP(){
   printf("Produccion EP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '+' || s == '-' ) ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == '+' || s == '-' ) ){
+    getNextChar();
     T();
     EP();
   }
-  else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-
+  else if( s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
   }
   else{
     berror = 1;
@@ -1016,14 +973,13 @@ void T(){
 void TP(){
   printf("Produccion TP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '*' || s == '/' ) ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == '*' || s == '/' ) ){
+    getNextChar();
     F();
     TP();
   }
-  else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-
+  else if( s == '+' || s == '-' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
   }
   else{
     berror = 1;
@@ -1036,12 +992,10 @@ void F(){
   printf("Produccion F\n");
   //printf("char: %c\n", s);
   if( s == '(' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     E();
     if( s == ')' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -1049,8 +1003,7 @@ void F(){
     }
   }
   else if( s == 'a' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else if( s == 'x' || s == 'z' ){
     J();
@@ -1068,8 +1021,7 @@ void Parser(){
     printf("Error en el apuntador");
   }
   else{
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     S();
     if( berror != 1 ){
       printf("PROGRAMA CORRECTO");
@@ -1079,4 +1031,14 @@ void Parser(){
     }
   }
   return;
+}
+
+void getNextChar(){
+  if( ptrInicialAtomos->atomo == '?' ){
+    s = '?';
+  }
+  else{
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  }
 }

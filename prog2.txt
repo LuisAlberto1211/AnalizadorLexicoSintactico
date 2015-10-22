@@ -1,1 +1,1 @@
-_entero b := 6 . . .
+_entero b := 6 . .

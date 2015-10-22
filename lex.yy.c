@@ -369,21 +369,21 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[121] =
+static yyconst flex_int16_t yy_accept[117] =
     {   0,
-        0,    0,   15,   14,   13,   14,   12,    6,    5,    5,
-        6,    8,   12,    4,    4,    4,    2,    2,   12,   12,
-       13,    0,    7,   12,    8,   10,   10,    3,    4,    4,
-        2,    0,    9,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    2,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    1,    0,   11,    0,
-       10,    0,   10,    2,    0,    0,    0,    0,    0,    1,
-        0,    0,    0,    0,    0,    0,    2,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    2,    0,
-        0,    0,    0,    0,    0,    2,    0,    0,    0,    0,
+        0,    0,   15,   14,   13,   14,   12,    6,    5,    6,
+        8,   12,    4,    4,    4,    2,    2,   12,   12,   13,
+        0,    7,   12,   10,   10,    8,    3,    4,    4,    2,
+        9,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    2,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    1,    0,   11,   10,   10,    2,
+        0,    0,    0,    0,    0,    1,    0,    0,    0,    0,
+        0,    0,    2,    0,    0,    0,    0,    0,    0,    0,
+        0,    0,    0,    0,    2,    0,    0,    0,    0,    0,
+        0,    2,    0,    0,    0,    0,    0,    2,    0,    0,
 
-        0,    2,    0,    0,    0,    0,    2,    0,    0,    2,
-        0,    0,    2,    0,    2,    2,    2,    2,    2,    0
+        0,    0,    2,    0,    0,    2,    0,    0,    2,    0,
+        2,    2,    2,    2,    2,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -392,23 +392,23 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    4,    5,    6,    6,    6,    6,    1,    7,
-        7,    8,    9,    7,    9,   10,    8,   11,   11,   11,
-       11,   11,   11,   11,   11,   11,   11,   12,    6,   13,
-       14,   15,    6,    1,   16,   16,   16,   16,   17,   16,
-       16,   16,   16,   16,   16,   16,   16,   16,   16,   16,
-       16,   16,   16,   16,   16,   16,   16,   16,   16,   16,
-        7,    6,    7,    1,   18,    1,   19,   20,   21,   22,
+        7,    8,    8,    7,    8,    9,    8,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   11,    6,   12,
+       13,   14,    6,    1,   15,   15,   15,   15,   16,   15,
+       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+       15,   15,   15,   15,   15,   15,   15,   15,   15,   15,
+        7,    6,    7,    1,   17,    1,   18,   19,   20,   21,
 
-       23,   24,   25,   26,   27,   16,   16,   28,   29,   30,
-       31,   16,   16,   32,   33,   34,   16,   16,   16,   16,
-       16,   35,    6,    1,    6,    1,    1,    1,    1,    1,
+       22,   23,   24,   25,   26,   15,   15,   27,   28,   29,
+       30,   15,   15,   31,   32,   33,   15,   15,   15,   15,
+       15,   34,    6,    1,    6,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-       36,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+       35,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        6,    1,    1,   37,    1,    1,    1,    1,    1,    1,
+        6,    1,    1,   36,    1,    1,    1,    1,    1,    1,
 
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -418,108 +418,106 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[38] =
+static yyconst flex_int32_t yy_meta[37] =
     {   0,
         1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    3,    3,    1,    3,    3,
+        1,    1,    1,    1,    3,    3,    1,    3,    3,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    1,    1
+        3,    3,    3,    3,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[138] =
+static yyconst flex_int16_t yy_base[134] =
     {   0,
-        0,    0,  190,  191,   36,  184,   34,  191,  191,  177,
-      176,   31,   37,  172,  191,   31,    0,   39,   69,   41,
-       54,  180,  179,   48,   51,   47,   52,  191,  191,  191,
-        0,  172,  171,  150,  157,  149,  151,  158,  146,  156,
-      147,  150,  145,  167,   56,   59,    0,  138,  136,  134,
-      137,   47,  145,  133,  141,  144,   43,  158,  157,  149,
-      148,  147,  146,    0,  122,  133,  131,   78,  119,  191,
-      120,  126,  120,  121,  128,  116,    0,  115,  122,  112,
-      120,  115,  114,  121,  116,  107,  103,  105,    0,  104,
-      101,  110,  103,   99,  102,    0,  107,   98,  104,  107,
+        0,    0,  182,  183,   35,  176,   33,  183,  183,  170,
+       31,   36,  166,  183,   33,    0,  168,   67,   45,   52,
+      172,  171,   46,   48,   49,   51,  183,  183,  183,    0,
+      165,  144,  151,  143,  145,  152,  140,  150,  141,  144,
+      139,  160,  153,  152,    0,  130,  128,  126,  129,   34,
+      137,  125,  133,  136,   42,  149,  148,  141,  140,    0,
+      116,  127,  125,   76,  113,  183,  114,  120,  114,  115,
+      122,  110,    0,  109,  116,  106,  114,  109,  108,  115,
+      110,  101,   97,   99,    0,   98,   95,  104,   97,   93,
+       96,    0,  101,   92,   98,  101,   88,    0,   95,   83,
 
-       94,    0,  101,   89,   92,   88,    0,   88,   85,    0,
-       99,   85,    0,   80,    0,    0,    0,    0,  191,  191,
-      111,  107,  106,  114,  105,  102,  101,  100,   96,   91,
-       86,   85,   83,   81,   80,   76,   73
+       86,   81,    0,   79,   74,    0,   88,   75,    0,   70,
+        0,    0,    0,    0,  183,  183,  108,   98,   97,  111,
+       93,   88,   83,   82,   80,   76,   74,   73,   72,   71,
+       64,   45,   40
     } ;
 
-static yyconst flex_int16_t yy_def[138] =
+static yyconst flex_int16_t yy_def[134] =
     {   0,
-      120,    1,  120,  120,  120,  121,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  122,  122,  120,  120,
-      120,  121,  121,  120,  120,  120,  120,  120,  120,  120,
-      123,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  124,  120,  120,  125,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  124,  124,  120,
-      120,  120,  120,  126,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  127,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  120,  128,  120,
-      120,  120,  120,  120,  120,  129,  120,  120,  120,  120,
+      116,    1,  116,  116,  116,  117,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  118,  118,  116,  116,  116,
+      117,  117,  116,  116,  116,  116,  116,  116,  116,  119,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  120,  116,  116,  121,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  120,  120,  116,  116,  122,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  123,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  124,  116,  116,  116,  116,  116,
+      116,  125,  116,  116,  116,  116,  116,  126,  116,  116,
 
-      120,  130,  120,  120,  120,  120,  131,  120,  120,  132,
-      120,  120,  133,  120,  134,  135,  136,  137,  120,    0,
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120
+      116,  116,  127,  116,  116,  128,  116,  116,  129,  116,
+      130,  131,  132,  133,  116,    0,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116
     } ;
 
-static yyconst flex_int16_t yy_nxt[229] =
+static yyconst flex_int16_t yy_nxt[220] =
     {   0,
         4,    5,    5,    4,    6,    7,    8,    9,   10,   11,
-       12,   13,   14,   15,   16,   17,   18,   19,   17,   17,
-       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
-       17,   17,   17,   17,   17,    4,   20,   21,   21,   24,
-       27,   25,   24,   30,   30,   24,   24,   32,   24,   33,
-       28,   24,   24,   24,   24,   21,   21,   26,   24,   24,
-       27,   25,   26,   45,   60,   24,   61,   62,   46,   63,
-       24,   75,   76,   24,   24,  119,   44,   24,  118,   69,
-       24,   70,  117,  116,   24,  115,   24,  113,  110,   34,
-       35,   36,   37,  107,   38,   39,   40,   41,  102,   81,
+       12,   13,   14,   15,   16,   17,   18,   16,   16,   16,
+       16,   16,   16,   16,   16,   16,   16,   16,   16,   16,
+       16,   16,   16,   16,    4,   19,   20,   20,   23,   25,
+       26,   23,  115,   23,   29,   29,   23,  114,   27,   23,
+       23,   23,   23,   20,   20,   23,   23,   24,   24,   25,
+       26,   23,   23,   43,   44,   65,  113,   66,   23,   71,
+       72,   23,   23,  112,  111,  109,  106,   23,  103,   42,
+       23,   23,   98,   23,   92,   85,   32,   33,   34,   35,
+       73,   36,   37,   38,   39,   60,   77,   40,   41,   45,
 
-       42,   43,   96,   89,   77,   24,   82,   64,   47,   31,
-       83,   22,   70,   22,   58,   70,   58,  114,  112,  111,
-       70,  109,  108,   70,   70,  106,  105,  104,  103,  101,
-      100,   99,   98,   97,   70,   95,   94,   70,   93,   70,
-       70,   92,   91,   90,   70,   70,   70,   88,   70,   87,
-       86,   85,   84,   80,   79,   78,   63,   63,   61,   61,
-       59,   59,   74,   73,   72,   71,   68,   67,   66,   65,
-       59,   57,   56,   55,   54,   53,   52,   51,   50,   49,
-       48,   33,   33,   23,   23,   29,   26,   25,   23,  120,
-        3,  120,  120,  120,  120,  120,  120,  120,  120,  120,
+       30,   66,   23,   78,   66,  110,  108,   79,   21,  107,
+       21,   56,   66,   56,  105,  104,   66,   66,  102,  101,
+      100,   99,   97,   96,   95,   94,   93,   66,   91,   90,
+       66,   89,   66,   66,   88,   87,   86,   66,   66,   66,
+       84,   66,   83,   82,   81,   80,   76,   75,   74,   59,
+       58,   57,   57,   70,   69,   68,   67,   64,   63,   62,
+       61,   59,   58,   57,   55,   54,   53,   52,   51,   50,
+       49,   48,   47,   46,   31,   22,   22,   31,   28,   24,
+       22,  116,    3,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
 
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  120
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116
     } ;
 
-static yyconst flex_int16_t yy_chk[229] =
+static yyconst flex_int16_t yy_chk[220] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    5,    5,    7,
-       12,   12,   13,   16,   16,    7,   20,   18,   13,   18,
-       13,    7,   20,   24,   13,   21,   21,   26,   20,   24,
-       25,   25,   27,   26,   45,   24,   45,   46,   27,   46,
-        7,   57,   57,   13,   19,  137,   20,   20,  136,   52,
-       19,   52,  135,  134,   24,  133,   19,  132,  131,   19,
-       19,   19,   19,  130,   19,   19,   19,   19,  129,   68,
+        1,    1,    1,    1,    1,    1,    5,    5,    7,   11,
+       11,   12,  133,    7,   15,   15,   12,  132,   12,    7,
+       19,   23,   12,   20,   20,   19,   23,   24,   25,   26,
+       26,   19,   23,   24,   25,   50,  131,   50,    7,   55,
+       55,   12,   18,  130,  129,  128,  127,   18,  126,   19,
+       19,   23,  125,   18,  124,  123,   18,   18,   18,   18,
+      122,   18,   18,   18,   18,  121,   64,   18,   18,  119,
 
-       19,   19,  128,  127,  126,   19,   68,  125,  123,  122,
-       68,  121,  114,  121,  124,  112,  124,  111,  109,  108,
-      106,  105,  104,  103,  101,  100,   99,   98,   97,   95,
-       94,   93,   92,   91,   90,   88,   87,   86,   85,   84,
-       83,   82,   81,   80,   79,   78,   76,   75,   74,   73,
-       72,   71,   69,   67,   66,   65,   63,   62,   61,   60,
-       59,   58,   56,   55,   54,   53,   51,   50,   49,   48,
-       44,   43,   42,   41,   40,   39,   38,   37,   36,   35,
-       34,   33,   32,   23,   22,   14,   11,   10,    6,    3,
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
+      118,  110,   18,   64,  108,  107,  105,   64,  117,  104,
+      117,  120,  102,  120,  101,  100,   99,   97,   96,   95,
+       94,   93,   91,   90,   89,   88,   87,   86,   84,   83,
+       82,   81,   80,   79,   78,   77,   76,   75,   74,   72,
+       71,   70,   69,   68,   67,   65,   63,   62,   61,   59,
+       58,   57,   56,   54,   53,   52,   51,   49,   48,   47,
+       46,   44,   43,   42,   41,   40,   39,   38,   37,   36,
+       35,   34,   33,   32,   31,   22,   21,   17,   13,   10,
+        6,    3,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
 
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  120,  120,  120,
-      120,  120,  120,  120,  120,  120,  120,  120
+      116,  116,  116,  116,  116,  116,  116,  116,  116,  116,
+      116,  116,  116,  116,  116,  116,  116,  116,  116
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -651,6 +649,7 @@ char *yytext;
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
 
   //Funciones del analizador SINTACTICO
+  void getNextChar();
   void S();
   void D();
   void DP();
@@ -676,7 +675,7 @@ char *yytext;
   void TP();
   void F();
   void Parser();
-#line 680 "lex.yy.c"
+#line 679 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -858,9 +857,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 155 "analizLexSem.l"
+#line 156 "analizLexSem.l"
 
-#line 864 "lex.yy.c"
+#line 863 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -913,13 +912,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 121 )
+				if ( yy_current_state >= 117 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 191 );
+		while ( yy_base[yy_current_state] != 183 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -945,76 +944,76 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 156 "analizLexSem.l"
+#line 157 "analizLexSem.l"
 j = buscaElemento(op.palRes, yytext, SIMB_PALRES_NUM); insertarToken(&ptrInicialTokens, 0, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 157 "analizLexSem.l"
+#line 158 "analizLexSem.l"
 insertar(&ptrInicialIden, yytext, 1); insertarAtomo(&ptrInicialAtomos, 'a');
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 158 "analizLexSem.l"
+#line 159 "analizLexSem.l"
 j = buscaElemento(op.opAsig, yytext, SIMB_ASIG_NUM); insertarToken(&ptrInicialTokens, 2, j); insertarAtomo(&ptrInicialAtomos, '=');
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 159 "analizLexSem.l"
+#line 160 "analizLexSem.l"
 j = buscaElemento(op.opRel, yytext, SIMB_REL_NUM); insertarToken(&ptrInicialTokens, 3, j); insertarAtomo(&ptrInicialAtomos, decodificadorAtomos(yytext));
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 160 "analizLexSem.l"
+#line 161 "analizLexSem.l"
 j = buscaElemento(op.opArit, yytext, SIMB_ARIT_NUM); insertarToken(&ptrInicialTokens, 4, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 161 "analizLexSem.l"
+#line 162 "analizLexSem.l"
 j = buscaElemento(op.simbEsp, yytext, SIMB_ESP_NUM); insertarToken(&ptrInicialTokens, 5, j); insertarAtomo(&ptrInicialAtomos, yytext[0]);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 162 "analizLexSem.l"
+#line 163 "analizLexSem.l"
 insertar(&ptrInicialCad,yytext, 6); insertarAtomo(&ptrInicialAtomos, 'y');
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 163 "analizLexSem.l"
+#line 164 "analizLexSem.l"
 insertar(&ptrInicialConstEnt,yytext, 7); insertarAtomo(&ptrInicialAtomos, 'x');
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 164 "analizLexSem.l"
+#line 165 "analizLexSem.l"
 
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 165 "analizLexSem.l"
+#line 166 "analizLexSem.l"
 insertar(&ptrInicialConstReal,yytext, 8); insertarAtomo(&ptrInicialAtomos, 'z');
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 166 "analizLexSem.l"
+#line 167 "analizLexSem.l"
 
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 167 "analizLexSem.l"
+#line 168 "analizLexSem.l"
 insertar(&ptrInicialError,yytext, 9);
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 168 "analizLexSem.l"
+#line 169 "analizLexSem.l"
 
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 169 "analizLexSem.l"
+#line 170 "analizLexSem.l"
 ECHO;
 	YY_BREAK
-#line 1018 "lex.yy.c"
+#line 1017 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1306,7 +1305,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 121 )
+			if ( yy_current_state >= 117 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1334,11 +1333,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 121 )
+		if ( yy_current_state >= 117 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 120);
+	yy_is_jam = (yy_current_state == 116);
 
 	return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2011,7 +2010,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 169 "analizLexSem.l"
+#line 170 "analizLexSem.l"
 
 
 int main(int argc, char *argv[]){
@@ -2028,6 +2027,8 @@ int main(int argc, char *argv[]){
   lista2Archivo(ptrInicialConstEnt, "Constantes enteras", archSalida);
   lista2Archivo(ptrInicialConstReal, "Constantes reales", archSalida);
   lista2Archivo(ptrInicialError, "Errores", archSalida);
+  //Se inserta fin de cadena
+  insertarAtomo(&ptrInicialAtomos, '?');
   Parser(ptrInicialAtomos);
   fclose(archSalida);
 
@@ -2328,8 +2329,7 @@ void D(){
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
     TBP();
     if( s == 'a'){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         B();
         L();
     }
@@ -2348,12 +2348,12 @@ void D(){
 void DP(){
   printf("Produccion DP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
+  if( ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
     D();
     DP();
   }
   else if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
-
+    return;
   } else {
     berror = 1;
     printf("Error DP");
@@ -2367,8 +2367,7 @@ void TBP(){
   if( s == 'c' || s == 'l' || s == 'e' ){
     N();
     if( s == 'e' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -2376,8 +2375,7 @@ void TBP(){
     }
   }
   else if( s == 's' || s == 'r' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else {
     berror = 1;
@@ -2389,12 +2387,11 @@ void TBP(){
 void N(){
   printf("Produccion N\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == 'c' || s == 'l') ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == 'c' || s == 'l') ){
+    getNextChar();
   }
   else if( s == 'e'){
-
+    return;
   }
   else{
     berror = 1;
@@ -2406,13 +2403,12 @@ void N(){
 void B(){
   printf("Produccion B\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && s == '=' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( s == '=' ){
+    getNextChar();
     J();
   }
   else if( s == '.' || s == ',' ){
-
+    return;
   }
   else{
     berror = 1;
@@ -2425,8 +2421,7 @@ void J(){
   printf("Produccion J\n");
   //printf("char: %c\n", s);
   if( s == 'x' || s == 'z'){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -2439,11 +2434,9 @@ void L(){
   printf("Produccion L\n");
   //printf("char: %c\n", s);
   if( s == ','){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == 'a'){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       B();
       L();
     }
@@ -2453,8 +2446,7 @@ void L(){
     }
   }
   else if( s == '.'){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -2481,8 +2473,7 @@ void Z(){
   printf("Produccion Z\n");
   //printf("char: %c\n", s);
   if( s == '.' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else if( s == 'm' ){
     M();
@@ -2509,12 +2500,12 @@ void Z(){
 void PP(){
   printf("Produccion PP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a') ){
+  if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
     Z();
     PP();
   }
-  else if( ptrInicialAtomos == NULL || s == 'f' || s == 'b' || s == 't' || s == 'n' || s == 'g' ){
-
+  else if( s == '?' || s == 'f' || s == 'b' || s == 't' || s == 'n' || s == 'g' ){
+    return;
   }
   else{
     berror = 1;
@@ -2527,27 +2518,15 @@ void M(){
   printf("Produccion M\n");
   //printf("char: %c\n", s);
   if( s == 'm' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '(' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       R();
       if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           P();
           if( s == 'f' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-            if ( s == '.' ){
-              s = ptrInicialAtomos->atomo;
-              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
-            }
-            else{
-              berror = 1;
-              printf("Error M");
-            }
+            getNextChar();
           }
           else{
             berror = 1;
@@ -2575,22 +2554,17 @@ void H(){
   printf("Produccion H\n");
   //printf("char: %c\n", s);
   if( s == 'h' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     P();
     if( s == 't' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       if( s == '(' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         R();
         if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           if( s == '.' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            getNextChar();
           }
           else{
             berror = 1;
@@ -2623,15 +2597,12 @@ void I(){
   printf("Produccion I\n");
   //printf("char: %c\n", s);
   if( s == 'i' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '(' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       R();
       if( s == ')' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         P();
         G();
       }
@@ -2656,12 +2627,10 @@ void G(){
   printf("Produccion G\n");
   //printf("char: %c\n", s);
   if( s == 'n' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     P();
     if( s == 'b' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -2669,8 +2638,7 @@ void G(){
     }
   }
   else if( s == 'b' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -2683,33 +2651,25 @@ void FP(){
   printf("Produccion FP\n");
   //printf("char: %c\n", s);
   if( s == 'd' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     A();
     if( s == 't' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       if( s == '(' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
         E();
         if( s == ')' ){
-          s = ptrInicialAtomos->atomo;
-          ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+          getNextChar();
           if( s == 'p' ){
-            s = ptrInicialAtomos->atomo;
-            ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+            getNextChar();
             if( s == '(' ){
-              s = ptrInicialAtomos->atomo;
-              ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+              getNextChar();
               E();
               if( s == ')' ){
-                s = ptrInicialAtomos->atomo;
-                ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+                getNextChar();
                 P();
                 if( s == 'g' ){
-                  s = ptrInicialAtomos->atomo;
-                  ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+                  getNextChar();
                 }
                 else{
                   berror = 1;
@@ -2757,15 +2717,12 @@ void A(){
   printf("Produccion A\n");
   //printf("char: %c\n", s);
   if( s == 'a' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     if( s == '=' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
       E();
       if( s == '.' ){
-        s = ptrInicialAtomos->atomo;
-        ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+        getNextChar();
       }
       else{
         berror = 1;
@@ -2803,8 +2760,7 @@ void O(){
   printf("Produccion O\n");
   //printf("char: %c\n", s);
   if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else{
     berror = 1;
@@ -2830,14 +2786,13 @@ void E(){
 void EP(){
   printf("Produccion EP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '+' || s == '-' ) ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == '+' || s == '-' ) ){
+    getNextChar();
     T();
     EP();
   }
-  else if( s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-
+  else if( s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
   }
   else{
     berror = 1;
@@ -2863,14 +2818,13 @@ void T(){
 void TP(){
   printf("Produccion TP\n");
   //printf("char: %c\n", s);
-  if( ptrInicialAtomos != NULL && ( s == '*' || s == '/' ) ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  if( ( s == '*' || s == '/' ) ){
+    getNextChar();
     F();
     TP();
   }
-  else if( s == '+' || s == '-' || s == '(' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
-
+  else if( s == '+' || s == '-' || s == ')' || s == '.' || s == 'j' ||  s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
+    return;
   }
   else{
     berror = 1;
@@ -2883,12 +2837,10 @@ void F(){
   printf("Produccion F\n");
   //printf("char: %c\n", s);
   if( s == '(' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     E();
     if( s == ')' ){
-      s = ptrInicialAtomos->atomo;
-      ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+      getNextChar();
     }
     else{
       berror = 1;
@@ -2896,8 +2848,7 @@ void F(){
     }
   }
   else if( s == 'a' ){
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
   }
   else if( s == 'x' || s == 'z' ){
     J();
@@ -2915,8 +2866,7 @@ void Parser(){
     printf("Error en el apuntador");
   }
   else{
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    getNextChar();
     S();
     if( berror != 1 ){
       printf("PROGRAMA CORRECTO");
@@ -2926,5 +2876,15 @@ void Parser(){
     }
   }
   return;
+}
+
+void getNextChar(){
+  if( ptrInicialAtomos->atomo == '?' ){
+    s = '?';
+  }
+  else{
+    s = ptrInicialAtomos->atomo;
+    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+  }
 }
 

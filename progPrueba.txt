@@ -3,7 +3,7 @@ _largo _entero suma, resta .
 a := 3 .
 b := 4 .
 c := 5 .
-_mientras(a <= b)
+_mientras (a <= b)
   suma := c + 2 .
   _si( suma > 20 )
     a := b + 1 .

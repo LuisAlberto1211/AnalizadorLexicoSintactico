@@ -57,10 +57,8 @@ Identificadores
 (16, a, )
 (17, c, )
 (18, c, )
-(19, r, )
 
 Cadenas
-(0, "g")
 
 Constantes enteras
 (7, 3)
