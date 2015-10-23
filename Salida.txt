@@ -1,90 +1,31 @@
 TABLAS GENERADAS:
 
 Tabla de simbolos
-0: a
-1: b
-2: c
-3: suma
-4: resta
-5: cadena
+0: b
 
 Tabla de Cadenas
 
 Tabla de Constantes enteras
-0: 3
-1: 4
-2: 5
-3: 2
-4: 20
-5: 1
-6: 1
-7: 3
+0: 6
 
 Tabla de Constantes reales
 
 TOKENS GENERADOS:
 
-(0, 0)
 (0, 2)
-(5, ,)
-(5, ,)
-(5, .)
-(0, 9)
-(0, 2)
-(5, ,)
-(5, .)
-(0, 13)
-(5, .)
 (2, 0)
 (5, .)
-(2, 0)
 (5, .)
-(2, 0)
-(5, .)
-(0, 10)
-(5, ()
-(3, 3)
-(5, ))
-(2, 0)
-(4, +)
-(5, .)
-(0, 12)
-(5, ()
-(3, 0)
-(5, ))
-(2, 0)
-(4, +)
-(5, .)
-(0, 5)
-(2, 0)
-(4, +)
-(5, .)
-(2, 0)
-(4, *)
-(5, .)
-(0, 4)
 
-(1, a)
 (1, b)
-(1, c)
-(1, suma)
-(1, resta)
-(1, cadena)
 
 
-(7, 3)
-(7, 4)
-(7, 5)
-(7, 2)
-(7, 20)
-(7, 1)
-(7, 1)
-(7, 3)
+(7, 6)
 
 
 CADENA DE ATOMOS:
 
-cea,a,a.lea,a.sa.a=x.a=x.a=x.m(aua)a=a+x.i(ajx)a=a+x.ba=a+x.a=a*x.f?
+ea=x..?
 
 PROGRAMA CORRECTO :D
  
@@ -95,137 +36,12 @@ PRODUCCIONES USADAS:
 2: Produccion TBP
 3: Produccion N
 4: Produccion B
-5: Produccion L
-6: Produccion B
-7: Produccion L
-8: Produccion B
-9: Produccion L
-10: Produccion DP
-11: Produccion D
-12: Produccion TBP
-13: Produccion N
-14: Produccion B
-15: Produccion L
-16: Produccion B
-17: Produccion L
-18: Produccion DP
-19: Produccion D
-20: Produccion TBP
-21: Produccion B
-22: Produccion L
-23: Produccion DP
-24: Produccion P
-25: Produccion Z
-26: Produccion A
-27: Produccion E
-28: Produccion T
-29: Produccion F
-30: Produccion J
-31: Produccion TP
-32: Produccion EP
-33: Produccion PP
-34: Produccion Z
-35: Produccion A
-36: Produccion E
-37: Produccion T
-38: Produccion F
-39: Produccion J
-40: Produccion TP
-41: Produccion EP
-42: Produccion PP
-43: Produccion Z
-44: Produccion A
-45: Produccion E
-46: Produccion T
-47: Produccion F
-48: Produccion J
-49: Produccion TP
-50: Produccion EP
-51: Produccion PP
-52: Produccion Z
-53: Produccion M
-54: Produccion R
-55: Produccion E
-56: Produccion T
-57: Produccion F
-58: Produccion TP
-59: Produccion EP
-60: Produccion O
-61: Produccion E
-62: Produccion T
-63: Produccion F
-64: Produccion TP
-65: Produccion EP
-66: Produccion P
-67: Produccion Z
-68: Produccion A
-69: Produccion E
-70: Produccion T
-71: Produccion F
-72: Produccion TP
-73: Produccion EP
-74: Produccion T
-75: Produccion F
-76: Produccion J
-77: Produccion TP
-78: Produccion EP
-79: Produccion PP
-80: Produccion Z
-81: Produccion I
-82: Produccion R
-83: Produccion E
-84: Produccion T
-85: Produccion F
-86: Produccion TP
-87: Produccion EP
-88: Produccion O
-89: Produccion E
-90: Produccion T
-91: Produccion F
-92: Produccion J
-93: Produccion TP
-94: Produccion EP
-95: Produccion P
-96: Produccion Z
-97: Produccion A
-98: Produccion E
-99: Produccion T
-100: Produccion F
-101: Produccion TP
-102: Produccion EP
-103: Produccion T
-104: Produccion F
-105: Produccion J
-106: Produccion TP
-107: Produccion EP
-108: Produccion PP
-109: Produccion G
-110: Produccion PP
-111: Produccion Z
-112: Produccion A
-113: Produccion E
-114: Produccion T
-115: Produccion F
-116: Produccion TP
-117: Produccion EP
-118: Produccion T
-119: Produccion F
-120: Produccion J
-121: Produccion TP
-122: Produccion EP
-123: Produccion PP
-124: Produccion Z
-125: Produccion A
-126: Produccion E
-127: Produccion T
-128: Produccion F
-129: Produccion TP
-130: Produccion F
-131: Produccion J
-132: Produccion TP
-133: Produccion EP
-134: Produccion PP
-135: Produccion PP
+5: Produccion J
+6: Produccion L
+7: Produccion DP
+8: Produccion P
+9: Produccion Z
+10: Produccion PP
 
 ERRORES GENERADOS:
 

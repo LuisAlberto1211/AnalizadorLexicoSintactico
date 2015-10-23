@@ -2027,8 +2027,6 @@ int main(int argc, char *argv[]){
   yylex();
   fclose(yyin);
 
-  imprimeListaAtomos(ptrInicialAtomos);
-
   fprintf(archSalida, "TABLAS GENERADAS:\n\n");
   lista2Archivo(ptrInicialIden, "Tabla de simbolos", archSalida);
   lista2Archivo(ptrInicialCad, "Tabla de Cadenas", archSalida);
@@ -2795,14 +2793,14 @@ void A(){
 void R(){
   insertar(&ptrInicialProd, "Produccion R", 100);
   //printf("char: %c\n", s);
-  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' || s == 'y' ){
     E();
     O();
     E();
   }
   else{
     berror = 1;
-    insertar(&ptrInicialErrorSem, "R: ( a x z", 99);
+    insertar(&ptrInicialErrorSem, "R: ( a x z y", 99);
   }
   return;
 }
@@ -2823,13 +2821,13 @@ void O(){
 void E(){
   insertar(&ptrInicialProd, "Produccion E", 100);
   //printf("char: %c\n", s);
-  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' || s == 'y' ){
     T();
     EP();
   }
   else{
     berror = 1;
-    insertar(&ptrInicialErrorSem, "E: ( a x z", 99);
+    insertar(&ptrInicialErrorSem, "E: ( a x z y", 99);
   }
   return;
 }
@@ -2855,13 +2853,13 @@ void EP(){
 void T(){
   insertar(&ptrInicialProd, "Produccion T", 100);
   //printf("char: %c\n", s);
-  if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
+  if( s == '(' || s == 'a' || s == 'x' || s == 'z' || s == 'y'){
     F();
     TP();
   }
   else{
     berror = 1;
-    insertar(&ptrInicialErrorSem, "T: ( a x z", 99);
+    insertar(&ptrInicialErrorSem, "T: ( a x z y", 99);
   }
   return;
 }
@@ -2901,7 +2899,7 @@ void F(){
   else if( s == 'a' ){
     getNextChar();
   }
-  else if( s == 'x' || s == 'z' ){
+  else if( s == 'x' || s == 'z' || s == 'y' ){
     J();
   }
   else{
