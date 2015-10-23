@@ -13,7 +13,7 @@
   #include <string.h>
 
   //Longitud maxima de cada simbolo perteneciente a una tabla de operadores
-  #define LONG_MAX_SYM 12
+  #define LONG_MAX_SYM 20
   #define LONG_MAX_PALRES 12
   #define LONG_MAX_STR 10
 
@@ -88,9 +88,13 @@
 
   //Funciones que pasan los elementos de la lista a archivos
   void lista2ArchivoToken(ptrNodoLista ptrInicial, FILE *fp);
+  void lista2ArchivoToken2(ptrNodoListaExpandible ptrActual, FILE *fp);
   void lista2Archivo(ptrNodoListaExpandible ptrInicial, char *titulo, FILE *fp);
+  void lista2ArchivoAtomos(ptrNodoListaAtomos ptrInicial, char *titulo, FILE *fp);
 
   char decodificadorAtomos(char *string);
+  char comparaCadenas(char *s1, char *s2);
+  void error(char *s, FILE *fp);
 
   int i, j;
   Operadores op = { SIMB_PALRES, SIMB_REL, SIMB_ASIG, SIMB_ARIT, SIMB_ESP};  //Se inicializa las tablas de operadores
@@ -109,7 +113,10 @@
   ptrNodoListaExpandible ptrInicialConstEnt = NULL;
   ptrNodoListaExpandible ptrInicialConstReal = NULL;
   ptrNodoListaExpandible ptrInicialError = NULL;
+  ptrNodoListaExpandible ptrInicialErrorSem = NULL;
+  ptrNodoListaExpandible ptrInicialProd = NULL;
   ptrNodoListaAtomos ptrInicialAtomos = NULL;
+  ptrNodoListaAtomos ptrInicialAtomos2 = NULL;
 
   //Funciones del analizador SINTACTICO
   void getNextChar();
@@ -176,15 +183,34 @@ int main(int argc, char *argv[]){
   fclose(yyin);
 
   imprimeListaAtomos(ptrInicialAtomos);
+
+  fprintf(archSalida, "TABLAS GENERADAS:\n\n");
+  lista2Archivo(ptrInicialIden, "Tabla de simbolos", archSalida);
+  lista2Archivo(ptrInicialCad, "Tabla de Cadenas", archSalida);
+  lista2Archivo(ptrInicialConstEnt, "Tabla de Constantes enteras", archSalida);
+  lista2Archivo(ptrInicialConstReal, "Tabla de Constantes reales", archSalida);
+
+  fprintf(archSalida, "TOKENS GENERADOS:\n\n");
   lista2ArchivoToken(ptrInicialTokens, archSalida);
-  lista2Archivo(ptrInicialIden, "\nIdentificadores", archSalida);
-  lista2Archivo(ptrInicialCad, "Cadenas", archSalida);
-  lista2Archivo(ptrInicialConstEnt, "Constantes enteras", archSalida);
-  lista2Archivo(ptrInicialConstReal, "Constantes reales", archSalida);
-  lista2Archivo(ptrInicialError, "Errores", archSalida);
-  //Se inserta fin de cadena
-  insertarAtomo(&ptrInicialAtomos, '?');
-  Parser(ptrInicialAtomos);
+  lista2ArchivoToken2(ptrInicialIden, archSalida);
+  lista2ArchivoToken2(ptrInicialCad, archSalida);
+  lista2ArchivoToken2(ptrInicialConstEnt, archSalida);
+  lista2ArchivoToken2(ptrInicialConstReal, archSalida);
+
+  insertarAtomo(&ptrInicialAtomos, '?');  //Se inserta fin de cadena
+  ptrInicialAtomos2 = ptrInicialAtomos;
+  fprintf(archSalida, "CADENA DE ATOMOS:\n\n");
+  lista2ArchivoAtomos(ptrInicialAtomos, "", archSalida);
+
+  Parser(ptrInicialAtomos2);
+
+  fprintf(archSalida, "PRODUCCIONES USADAS:\n");
+  lista2Archivo(ptrInicialProd, "", archSalida);
+
+  fprintf(archSalida, "ERRORES GENERADOS:\n\n");
+  lista2Archivo(ptrInicialError, "Errores lexicos:", archSalida);
+  lista2Archivo(ptrInicialErrorSem, "Errores semanticos:\n", archSalida);
+
   fclose(archSalida);
 
   return 0;
@@ -332,9 +358,23 @@ void insertar( ptrNodoListaExpandible *ptrS, char *elemento, char clase){
     ptrAnterior = NULL;
     ptrActual = *ptrS;
 
-    while( ptrActual != NULL ){
-      ptrAnterior = ptrActual;
-      ptrActual = ptrActual->ptrSig;
+    if( clase == 1){  //Evita que los identificadores se repitan
+      while( ptrActual != NULL ){
+        if( comparaCadenas(ptrActual->elemento, elemento) == 1 ){
+          return;
+        }
+        else{
+          ptrAnterior = ptrActual;
+          ptrActual = ptrActual->ptrSig;
+        }
+      }
+    }
+
+    else{ //En caso de no ser un identificador
+      while( ptrActual != NULL ){
+        ptrAnterior = ptrActual;
+        ptrActual = ptrActual->ptrSig;
+      }
     }
 
     if ( ptrAnterior == NULL ){
@@ -425,7 +465,6 @@ void imprimeListaAtomos( ptrNodoListaAtomos ptrActual ){
 //Convierte las listas a archivos dandole el formato solicitado
 void lista2ArchivoToken(ptrNodoLista ptrInicial, FILE *fp){
   char *tmp;
-  fprintf(fp, "Tokens de tablas estaticas:\n");
   while(ptrInicial != NULL){
     if(ptrInicial->clase == 4 || ptrInicial->clase == 5){
       if(ptrInicial->clase == 4){
@@ -441,30 +480,42 @@ void lista2ArchivoToken(ptrNodoLista ptrInicial, FILE *fp){
       fprintf(archSalida, "(%d, %d)\n", ptrInicial->clase, ptrInicial->posicion);
     ptrInicial = ptrInicial->ptrSig;
   }
+  fprintf(archSalida, "\n");
 }
 
-void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
+void lista2ArchivoToken2(ptrNodoListaExpandible ptrActual, FILE *fp){
   char pos = 0;
 
-  fprintf(fp, "%s\n", titulo);
   while(ptrActual != NULL){
-    if( ptrActual->clase == 1 || ptrActual->clase == 6 || ptrActual->clase == 9){
-        if( ptrActual->clase == 1 )
-          fprintf(fp, "(%d, %s, )\n", pos++, (ptrActual->elemento) );
-        else
-          fprintf(fp, "(%d, %s)\n", pos++, (ptrActual->elemento) );
-    }
-    else
-      fprintf(archSalida, "(%d, %s)\n", ptrActual->clase, ptrActual->elemento);
+    fprintf(archSalida, "(%d, %s)\n", ptrActual->clase, ptrActual->elemento);
     ptrActual = ptrActual->ptrSig;
   }
   fprintf(archSalida, "\n");
 }
 
+void lista2Archivo(ptrNodoListaExpandible ptrActual, char *titulo, FILE *fp){
+  int pos = 0;
+
+  fprintf(fp, "%s\n", titulo);
+  while(ptrActual != NULL){
+      fprintf(archSalida, "%d: %s\n", pos++, ptrActual->elemento);
+    ptrActual = ptrActual->ptrSig;
+  }
+  fprintf(archSalida, "\n");
+}
+
+void lista2ArchivoAtomos(ptrNodoListaAtomos ptrInicial, char *titulo, FILE *fp){
+  if (strlen(titulo) != 0 ) fprintf(fp, "%s\n", titulo);
+  while(ptrInicial != NULL){
+      fprintf(archSalida, "%c", ptrInicial->atomo);
+      ptrInicial = ptrInicial->ptrSig;
+  }
+  fprintf(archSalida, "\n\n");
+}
 
 //FUNCIONES RECURSIVAS DEL ANALIZADOR SINTACTICO
 void S(){
-  printf("Produccion S\n");
+  insertar(&ptrInicialProd, "Produccion S", 100);
   //printf("char: %c\n", s);
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
     D();
@@ -473,13 +524,13 @@ void S(){
   }
   else{
     berror = 1;
-    printf("Error en S");
+    insertar(&ptrInicialErrorSem, "S: s r c l e", 99);
   }
   return;
 }
 
 void D(){
-  printf("Produccion D\n");
+  insertar(&ptrInicialProd, "Produccion D", 100);
   //printf("char: %c\n", s);
   if( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ){
     TBP();
@@ -489,19 +540,19 @@ void D(){
         L();
     }
     else{
-      printf("Un tipo de dato debe ser seguido por un identificador\n");
+      insertar(&ptrInicialErrorSem, "D: a", 99);
       berror = 1;
     }
   }
   else{
     berror = 1;
-    printf("Error D");
+    insertar(&ptrInicialErrorSem, "D: s r c l e", 99);
   }
   return;
 }
 
 void DP(){
-  printf("Produccion DP\n");
+  insertar(&ptrInicialProd, "Produccion DP", 100);
   //printf("char: %c\n", s);
   if( ( s == 's' || s == 'r' || s == 'c' || s == 'l' || s == 'e' ) ){
     D();
@@ -511,13 +562,13 @@ void DP(){
     return;
   } else {
     berror = 1;
-    printf("Error DP");
+    insertar(&ptrInicialErrorSem, "DP: s r c l e . m h i d a", 99);
   }
   return;
 }
 
 void TBP(){
-  printf("Produccion TBP\n");
+  insertar(&ptrInicialProd, "Produccion TBP", 100);
   //printf("char: %c\n", s);
   if( s == 'c' || s == 'l' || s == 'e' ){
     N();
@@ -526,7 +577,7 @@ void TBP(){
     }
     else{
       berror = 1;
-      printf("Error TBP");
+      insertar(&ptrInicialErrorSem, "TBP: e", 99);
     }
   }
   else if( s == 's' || s == 'r' ){
@@ -534,13 +585,13 @@ void TBP(){
   }
   else {
     berror = 1;
-    printf("Error TBP");
+    insertar(&ptrInicialErrorSem, "TBP: s r c l e", 99);
   }
   return;
 }
 
 void N(){
-  printf("Produccion N\n");
+  insertar(&ptrInicialProd, "Produccion N", 100);
   //printf("char: %c\n", s);
   if( ( s == 'c' || s == 'l') ){
     getNextChar();
@@ -550,13 +601,13 @@ void N(){
   }
   else{
     berror = 1;
-    printf("Error en N");
+    insertar(&ptrInicialErrorSem, "N: c l e", 99);
   }
   return;
 }
 
 void B(){
-  printf("Produccion B\n");
+  insertar(&ptrInicialProd, "Produccion B", 100);
   //printf("char: %c\n", s);
   if( s == '=' ){
     getNextChar();
@@ -567,26 +618,26 @@ void B(){
   }
   else{
     berror = 1;
-    printf("Error B");
+    insertar(&ptrInicialErrorSem, "B: . , =", 99);
   }
   return;
 }
 
 void J(){
-  printf("Produccion J\n");
+  insertar(&ptrInicialProd, "Produccion J", 100);
   //printf("char: %c\n", s);
-  if( s == 'x' || s == 'z'){
+  if( s == 'x' || s == 'z' || s == 'y' ){
     getNextChar();
   }
   else{
     berror = 1;
-    printf("Error J");
+    insertar(&ptrInicialErrorSem, "J: x z y", 99);
   }
   return;
 }
 
 void L(){
-  printf("Produccion L\n");
+  insertar(&ptrInicialProd, "Produccion L", 100);
   //printf("char: %c\n", s);
   if( s == ','){
     getNextChar();
@@ -597,7 +648,7 @@ void L(){
     }
     else{
       berror = 1;
-      printf("Error L");
+      insertar(&ptrInicialErrorSem, "L: a", 99);
     }
   }
   else if( s == '.'){
@@ -605,13 +656,13 @@ void L(){
   }
   else{
     berror = 1;
-    printf("Error L");
+    insertar(&ptrInicialErrorSem, "DP: . ,", 99);
   }
   return;
 }
 
 void P(){
-  printf("Produccion P\n");
+  insertar(&ptrInicialProd, "Produccion P", 100);
   //printf("char: %c\n", s);
   if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
     Z();
@@ -619,13 +670,13 @@ void P(){
   }
   else{
     berror = 1;
-    printf("Error P");
+    insertar(&ptrInicialErrorSem, "P: . m h i d a", 99);
   }
   return;
 }
 
 void Z(){
-  printf("Produccion Z\n");
+  insertar(&ptrInicialProd, "Produccion Z", 100);
   //printf("char: %c\n", s);
   if( s == '.' ){
     getNextChar();
@@ -647,13 +698,13 @@ void Z(){
   }
   else{
     berror = 1;
-    printf("Error Z");
+    insertar(&ptrInicialErrorSem, "Z: . m h i d a", 99);
   }
   return;
 }
 
 void PP(){
-  printf("Produccion PP\n");
+  insertar(&ptrInicialProd, "Produccion PP", 100);
   //printf("char: %c\n", s);
   if( s == '.' || s == 'm' || s == 'h' || s == 'i' || s == 'd' || s == 'a' ){
     Z();
@@ -664,13 +715,13 @@ void PP(){
   }
   else{
     berror = 1;
-    printf("Error PP");
+    insertar(&ptrInicialErrorSem, "PP: . m h i d a f b t n g ?", 99);
   }
   return;
 }
 
 void M(){
-  printf("Produccion M\n");
+  insertar(&ptrInicialProd, "Produccion M", 100);
   //printf("char: %c\n", s);
   if( s == 'm' ){
     getNextChar();
@@ -685,28 +736,28 @@ void M(){
           }
           else{
             berror = 1;
-            printf("Error M");
+            insertar(&ptrInicialErrorSem, "M: f", 99);
           }
       }
       else{
         berror = 1;
-        printf("Error M");
+        insertar(&ptrInicialErrorSem, "M: )", 99);
       }
     }
     else{
       berror = 1;
-      printf("Error M");
+      insertar(&ptrInicialErrorSem, "M: (", 99);
     }
   }
   else{
     berror = 1;
-    printf("Error M");
+    insertar(&ptrInicialErrorSem, "M: m", 99);
   }
   return;
 }
 
 void H(){
-  printf("Produccion H\n");
+  insertar(&ptrInicialProd, "Produccion H", 100);
   //printf("char: %c\n", s);
   if( s == 'h' ){
     getNextChar();
@@ -723,33 +774,33 @@ void H(){
           }
           else{
             berror = 1;
-            printf("Error H");
+            insertar(&ptrInicialErrorSem, "H: .", 99);
           }
         }
         else{
           berror = 1;
-          printf("Error H");
+          insertar(&ptrInicialErrorSem, "H: )", 99);
         }
       }
       else{
         berror = 1;
-        printf("Error H");
+        insertar(&ptrInicialErrorSem, "H: (", 99);
       }
     }
     else{
       berror = 1;
-      printf("Error H");
+      insertar(&ptrInicialErrorSem, "H: t", 99);
     }
   }
   else{
     berror = 1;
-    printf("Error H");
+    insertar(&ptrInicialErrorSem, "H: h", 99);
   }
   return;
 }
 
 void I(){
-  printf("Produccion I\n");
+  insertar(&ptrInicialProd, "Produccion I", 100);
   //printf("char: %c\n", s);
   if( s == 'i' ){
     getNextChar();
@@ -763,23 +814,23 @@ void I(){
       }
       else{
         berror = 1;
-        printf("Error I");
+        insertar(&ptrInicialErrorSem, "I: )", 99);
       }
     }
     else{
       berror = 1;
-      printf("Error I");
+      insertar(&ptrInicialErrorSem, "I: (", 99);
     }
   }
   else{
     berror = 1;
-    printf("Error I");
+    insertar(&ptrInicialErrorSem, "I: i", 99);
   }
   return;
 }
 
 void G(){
-  printf("Produccion G\n");
+  insertar(&ptrInicialProd, "Produccion G", 100);
   //printf("char: %c\n", s);
   if( s == 'n' ){
     getNextChar();
@@ -789,7 +840,7 @@ void G(){
     }
     else{
       berror = 1;
-      printf("Error G");
+      insertar(&ptrInicialErrorSem, "G: b", 99);
     }
   }
   else if( s == 'b' ){
@@ -797,13 +848,13 @@ void G(){
   }
   else{
     berror = 1;
-    printf("Error G");
+    insertar(&ptrInicialErrorSem, "G: n b", 99);
   }
   return;
 }
 
 void FP(){
-  printf("Produccion FP\n");
+  insertar(&ptrInicialProd, "Produccion FP", 100);
   //printf("char: %c\n", s);
   if( s == 'd' ){
     getNextChar();
@@ -828,48 +879,48 @@ void FP(){
                 }
                 else{
                   berror = 1;
-                  printf("Error FP");
+                  insertar(&ptrInicialErrorSem, "FP: g", 99);
                 }
               }
               else{
                 berror = 1;
-                printf("Error FP");
+                insertar(&ptrInicialErrorSem, "FP: )", 99);
               }
             }
             else{
               berror = 1;
-              printf("Error FP");
+              insertar(&ptrInicialErrorSem, "FP: (", 99);
             }
           }
           else{
             berror = 1;
-            printf("Error FP");
+            insertar(&ptrInicialErrorSem, "FP: p", 99);
           }
         }
         else{
           berror = 1;
-          printf("Error FP");
+          insertar(&ptrInicialErrorSem, "FP: )", 99);
         }
       }
       else{
         berror = 1;
-        printf("Error FP");
+        insertar(&ptrInicialErrorSem, "FP: (", 99);
       }
     }
     else{
       berror = 1;
-      printf("Error FP");
+      insertar(&ptrInicialErrorSem, "FP: t", 99);
     }
   }
   else{
     berror = 1;
-    printf("Error FP");
+    insertar(&ptrInicialErrorSem, "FP: d", 99);
   }
   return;
 }
 
 void A(){
-  printf("Produccion A\n");
+  insertar(&ptrInicialProd, "Produccion A", 100);
   //printf("char: %c\n", s);
   if( s == 'a' ){
     getNextChar();
@@ -881,23 +932,23 @@ void A(){
       }
       else{
         berror = 1;
-        printf("Error A");
+        insertar(&ptrInicialErrorSem, "A: .", 99);
       }
     }
     else{
       berror = 1;
-      printf("Error A");
+      insertar(&ptrInicialErrorSem, "A: =", 99);
     }
   }
   else{
     berror = 1;
-    printf("Error A");
+    insertar(&ptrInicialErrorSem, "A: a", 99);
   }
   return;
 }
 
 void R(){
-  printf("Produccion R\n");
+  insertar(&ptrInicialProd, "Produccion R", 100);
   //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
     E();
@@ -906,26 +957,26 @@ void R(){
   }
   else{
     berror = 1;
-    printf("Error R");
+    insertar(&ptrInicialErrorSem, "R: ( a x z", 99);
   }
   return;
 }
 
 void O(){
-  printf("Produccion O\n");
+  insertar(&ptrInicialProd, "Produccion O", 100);
   //printf("char: %c\n", s);
   if( s == 'j' || s == 'k' || s == 'q' || s == 'u' || s == 'v' || s == 'w' ){
     getNextChar();
   }
   else{
     berror = 1;
-    printf("Error O");
+    insertar(&ptrInicialErrorSem, "O: j k q u v w", 99);
   }
   return;
 }
 
 void E(){
-  printf("Produccion E\n");
+  insertar(&ptrInicialProd, "Produccion E", 100);
   //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
     T();
@@ -933,13 +984,13 @@ void E(){
   }
   else{
     berror = 1;
-    printf("Error E");
+    insertar(&ptrInicialErrorSem, "E: ( a x z", 99);
   }
   return;
 }
 
 void EP(){
-  printf("Produccion EP\n");
+  insertar(&ptrInicialProd, "Produccion EP", 100);
   //printf("char: %c\n", s);
   if( ( s == '+' || s == '-' ) ){
     getNextChar();
@@ -951,13 +1002,13 @@ void EP(){
   }
   else{
     berror = 1;
-    printf("Error EP");
+    insertar(&ptrInicialErrorSem, "EP: + - ) . j k q u v w", 99);
   }
   return;
 }
 
 void T(){
-  printf("Produccion T\n");
+  insertar(&ptrInicialProd, "Produccion T", 100);
   //printf("char: %c\n", s);
   if( s == '(' || s == 'a' || s == 'x' || s == 'z' ){
     F();
@@ -965,13 +1016,13 @@ void T(){
   }
   else{
     berror = 1;
-    printf("Error T");
+    insertar(&ptrInicialErrorSem, "T: ( a x z", 99);
   }
   return;
 }
 
 void TP(){
-  printf("Produccion TP\n");
+  insertar(&ptrInicialProd, "Produccion TP", 100);
   //printf("char: %c\n", s);
   if( ( s == '*' || s == '/' ) ){
     getNextChar();
@@ -983,13 +1034,13 @@ void TP(){
   }
   else{
     berror = 1;
-    printf("Error TP");
+    insertar(&ptrInicialErrorSem, "TP: * / + - ) . j k q u v w", 99);
   }
   return;
 }
 
 void F(){
-  printf("Produccion F\n");
+  insertar(&ptrInicialProd, "Produccion F", 100);
   //printf("char: %c\n", s);
   if( s == '(' ){
     getNextChar();
@@ -999,7 +1050,7 @@ void F(){
     }
     else{
       berror = 1;
-      printf("Error F");
+      insertar(&ptrInicialErrorSem, "F: )", 99);
     }
   }
   else if( s == 'a' ){
@@ -1010,13 +1061,13 @@ void F(){
   }
   else{
     berror = 1;
-    printf("Error F");
+    insertar(&ptrInicialErrorSem, "F: ( a x z", 99);
   }
   return;
 }
 
 void Parser(){
-  printf("Produccion Parser\n");
+  //insertar(&ptrInicialProd, "Produccion Parser", 100);
   if(ptrInicialAtomos == NULL){
     printf("Error en el apuntador");
   }
@@ -1024,21 +1075,38 @@ void Parser(){
     getNextChar();
     S();
     if( berror != 1 ){
-      printf("PROGRAMA CORRECTO");
+      error("PROGRAMA CORRECTO :D\n ", archSalida);
     }
     else{
-      printf("Errores sintacticos");
+      error("PROGRAMA CON ERRORES :(\n", archSalida);
     }
   }
   return;
 }
 
 void getNextChar(){
-  if( ptrInicialAtomos->atomo == '?' ){
+  if( ptrInicialAtomos2->atomo == '?' ){
     s = '?';
   }
   else{
-    s = ptrInicialAtomos->atomo;
-    ptrInicialAtomos = ptrInicialAtomos->ptrSig;
+    s = ptrInicialAtomos2->atomo;
+    ptrInicialAtomos2 = ptrInicialAtomos2->ptrSig;
   }
+}
+
+char comparaCadenas(char *s1, char *s2){
+  char size1 = strlen(s1);
+  char size2 = strlen(s2);
+  char iguales = 0;
+
+  if ( size1 == size2 ){
+    if (strncmp(s1, s2, size1) == 0){
+      iguales = 1;
+    }
+  }
+  return iguales;
+}
+
+void error(char *s, FILE *fp){
+  fprintf(fp, "%s\n", s);
 }

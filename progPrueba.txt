@@ -1,5 +1,6 @@
 _corto _entero a,b,c .
 _largo _entero suma, resta .
+_simbolo cadena .
 a := 3 .
 b := 4 .
 c := 5 .
